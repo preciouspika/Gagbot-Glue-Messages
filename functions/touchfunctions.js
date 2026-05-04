@@ -1,4 +1,4 @@
-const { ButtonBuilder } = require("discord.js");
+const { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require("discord.js");
 const { getCollar, getOtherKeysCollar, getClonedCollarKey } = require("./collarfunctions");
 const { getOption } = require("./configfunctions");
 const { getGags, getMitten } = require("./gagfunctions");
@@ -195,7 +195,7 @@ async function handleTouchEvent(user, target, type) {
                 return;
             }
         }
-		if (hasOption == "nobody") {
+		if (hasOption === "nobody") {
             // NOPE
 			rej("Blocked");
 			return;
