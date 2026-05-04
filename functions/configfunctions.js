@@ -122,6 +122,52 @@ const configoptions = {
 				return false;
 			}, // if true, button is greyed out
 		},
+        receiveheadpats: {
+			name: "Recieve Headpats",
+			desc: "Who is a allowed to headpat you?",
+			choices: [
+				{
+					name: "Everyone",
+					helptext: "Everyone is allowed to pat you without prompts",
+					select_function: (userID) => { return true },
+					value: "everyonenoprompt",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Everyone (Prompt)",
+					helptext: "Everyone but keyholders will prompt to pat you",
+					select_function: (userID) => { return true },
+					value: "everyone",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Keyholders",
+					helptext: "Only Keyholders can pat you and without prompts",
+					select_function: (userID) => { return true },
+					value: "keyholdernoprompt",
+					style: ButtonStyle.Secondary,
+				},
+                {
+					name: "Keyholders (Prompt)",
+					helptext: "Only Keyholders can pat you with prompts",
+					select_function: (userID) => { return true },
+					value: "keyholder",
+					style: ButtonStyle.Secondary,
+				},
+                {
+					name: "Nobody",
+					helptext: "Nobody can pat you",
+					select_function: (userID) => { return true },
+					value: "nobody",
+					style: ButtonStyle.Danger,
+				},
+			],
+			menutype: "choice",
+			default: "everyonenoprompt",
+			disabled: () => {
+				return false;
+			}, // if true, button is greyed out
+		}
     },
 	Arousal: {
 		arousalsystem: {

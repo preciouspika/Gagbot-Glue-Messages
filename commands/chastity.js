@@ -247,17 +247,6 @@ module.exports = {
                             }
                             await interaction.followUp({ content: nomessage });
                         })
-						if (bondagetype) {
-							// Named chastity belt
-							data.namedchastity = true;
-							interaction.reply(getText(data));
-							assignChastityBra(chastityuser.id, chastitykeyholder.id, bondagetype);
-						} else {
-							// Not a named chastity belt
-							data.nonamedchastity = true;
-							interaction.reply(getText(data));
-							assignChastityBra(chastityuser.id, chastitykeyholder.id, bondagetype);
-						}
 					} else {
 						// Left it unlocked ---- This is currently an unused data path as there will ALWAYS be a keyholder.
 						interaction.reply(`${interaction.user} puts a chastity bra on and clicks a tiny lock on it before stashing the key for safekeeping!`);

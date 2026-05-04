@@ -1,8 +1,11 @@
-const { getCollar } = require("./collarfunctions");
+const { getCollar, getOtherKeysCollar, getClonedCollarKey } = require("./collarfunctions");
 const { getGags, getMitten } = require("./gagfunctions");
 const { getHeadwearRestrictions, getHeadwear } = require("./headwearfunctions");
 const { getHeavyRestrictions, getHeavy } = require("./heavyfunctions");
 const { getToys } = require("./toyfunctions");
+const { getChastityBra } = require("./vibefunctions");
+const { getClonedChastityKey, getChastity } = require("./vibefunctions");
+const { getClonedChastityBraKey } = require("./vibefunctions");
 const { getWearable } = require("./wearablefunctions");
 
 /****************
@@ -143,4 +146,145 @@ function doHeadpatFunctions(headpatter, recipient, returnedobject) {
 	}
 }
 
+// Prompts the target to touch them
+async function handleTouchEvent(user, target, type) {
+	return new Promise(async (res, rej) => {
+		let hasOption = getOption(target.id, `receive${type}`);
+        let iskeyholder = false;
+        
+        if (getCollar(target.id)?.keyholder == user.id) { iskeyholder = true }
+        if (getChastity(target.id)?.keyholder == user.id) { iskeyholder = true }
+        if (getChastityBra(target.id)?.keyholder == user.id) { iskeyholder = true }
+        if (getClonedChastityKey(target.id).includes(user.id)) { iskeyholder = true }
+        if (getClonedChastityBraKey(target.id).includes(user.id)) { iskeyholder = true }
+        if (getClonedCollarKey(target.id).includes(user.id)) { iskeyholder = true }
+
+        if (hasOption === "everyonenoprompt") {
+            // Nothing needs to be done here.
+            res(true)
+        } 
+        if (hasOption === "everyone" && iskeyholder) {
+            // Keyholders get to skip the line
+            res(true)
+        }
+        if (hasOption === "keyholdernoprompt") {
+            if (iskeyholder) {
+                // Keyholders allowed to touch
+                res(true)
+                return;
+            }
+            else {
+                // Everyone else not allowed
+                rej("Blocked")
+                return;
+            }
+        }
+        if (hasOption === "keyholder") {
+            if (!iskeyholder) {
+                // Everyone else not allowed, keyholders prompt
+                rej("Blocked")
+                return;
+            }
+        }
+		if (hasOption == "nobody") {
+            // NOPE
+			rej("Blocked");
+			return;
+		} 
+
+        /*if (process.recentlypromptedmajor && process.recentlypromptedmajor[target.id] && process.recentlypromptedmajor[target.id] > Date.now()) {
+            rej("Cooldown")
+            return;
+        }*/
+
+		let restraintfullname = ``;
+        let touchtext = ``;
+		switch (type) {
+			case "headpat":
+                touchtext = `${user} would like to headpat you.`
+				break;
+			default:
+				console.log(`Could not find a touch by that type.`);
+				rej("Error");
+				break;
+		}
+
+		// We need to ASK
+		let prompttext = `${touchtext}\n\nDo you wish to allow this action?`;
+		let buttons = [
+            new ButtonBuilder()
+                .setCustomId("denyButton")
+                .setLabel("Deny")
+                .setStyle(ButtonStyle.Danger), 
+            new ButtonBuilder()
+                .setCustomId("acceptButton")
+                .setLabel("Allow")
+                .setStyle(ButtonStyle.Success),
+            /*
+            new ButtonBuilder()
+                .setCustomId("cooldown15")
+                .setLabel("Block Requests for 15m")
+                .setStyle(ButtonStyle.Danger),*/
+        ]
+
+        try {
+            let dmchannel = await target.createDM();
+            await dmchannel
+                .send({ content: `${prompttext}`, components: [new ActionRowBuilder().addComponents(...buttons)] })
+                .then(async (mess) => {
+                    // Create a collector for up to 5 minutes
+                    const collector = mess.createMessageComponentCollector({ componentType: ComponentType.Button, time: 300_000, max: 1 });
+
+                    collector.on("collect", async (i) => {
+                        console.log(i);
+                        if (i.customId == "cooldown15") {
+                            if (process.recentlypromptedmajor == undefined) {
+                                process.recentlypromptedmajor = {}
+                            }
+                            process.recentlypromptedmajor[target.id] = Date.now() + 900000
+                        }
+                        if (i.customId == "cooldown60") {
+                            if (process.recentlypromptedmajor == undefined) {
+                                process.recentlypromptedmajor = {}
+                            }
+                            process.recentlypromptedmajor[target.id] = Date.now() + 3600000
+                        }
+                        if (i.customId == "cooldown1440") {
+                            if (process.recentlypromptedmajor == undefined) {
+                                process.recentlypromptedmajor = {}
+                            }
+                            process.recentlypromptedmajor[target.id] = Date.now() + 86400000
+                        }
+                        if (i.customId == "acceptButton") {
+                            mess.edit({ content: `Accepted - ${user} is allowed to ${type} you.`})
+                            res(true);
+                        } else {
+                            mess.edit({ content: `Rejected - ${user} is NOT allowed to ${type} you.`})
+                            rej(true);
+                        }
+                    });
+
+                    collector.on("end", async (collected) => {
+                        // timed out
+                        if (collected.length == 0) {
+                            await mess.delete().then(() => {
+                                i.reply(`Timed out - ${user} will not be permitted to touch you.`);
+                            });
+                            rej(true);
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.log(`Error sending message to touch ${target}.`);
+                    rej("NoDM");
+                });
+        }
+        catch (err) {
+            console.log(err);
+            rej("NoDM")
+        }
+	});
+}
+
 exports.rollPatChance = rollPatChance;
+exports.handleTouchEvent = handleTouchEvent;
