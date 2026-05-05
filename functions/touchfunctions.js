@@ -89,14 +89,25 @@ function rollPatChance(user, target) {
     // Note, within the function we need to check if headpat was successful! 
     doHeadpatFunctions(user, target, returnedobject)
 
-    statsAddCounter(user, "headpatsgiven");
-    statsAddCounter(target, "headpatsreceived");
-    if (user == target) {
-        statsAddCounter(target, "headpatsself");
+    if (returnedobject.hit) {
+        statsAddCounter(user, "headpatsgiven");
+        statsAddCounter(target, "headpatsreceived");
+        if (user == target) {
+            statsAddCounter(target, "headpatsself");
+        }
     }
-    if (returnedobject.crit) { statsAddCounter(target, "headpatcrits") }
-    if (returnedobject.doublecrit) { statsAddCounter(target, "headpatdoublecrits") }
-    if (returnedobject.triplecrit) { statsAddCounter(target, "headpattriplecrits") }
+    if (returnedobject.crit) { 
+        statsAddCounter(user, "headpatcrits") 
+        statsAddCounter(target, "headpatcritsreceived") 
+    }
+    if (returnedobject.doublecrit) { 
+        statsAddCounter(user, "headpatdoublecrits") 
+        statsAddCounter(target, "headpatdoublecritsreceived") 
+    }
+    if (returnedobject.triplecrit) { 
+        statsAddCounter(user, "headpattriplecrits") 
+        statsAddCounter(target, "headpattriplecritsreceived") 
+    }
 
     return returnedobject;
 }
