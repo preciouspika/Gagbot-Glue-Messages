@@ -1,7 +1,7 @@
 const { getCollarName, getCollar, assignCollar } = require("../../functions/collarfunctions.js");
 const { assignMitten, getMitten, getMittenName, getGag, convertGagText, assignGag } = require("../../functions/gagfunctions.js");
 const { getHeadwear, DOLLVISORS, getHeadwearName, assignHeadwear } = require("../../functions/headwearfunctions.js");
-const { removeHeavy, getHeavy, assignHeavy } = require("../../functions/heavyfunctions.js");
+const { removeHeavy, getHeavy, assignHeavy, getHeavyName } = require("../../functions/heavyfunctions.js");
 const { messageSendChannel } = require("../../functions/messagefunctions.js");
 const { getText } = require("../../functions/textfunctions.js");
 const { getChastityBra } = require("../../functions/vibefunctions.js");
@@ -27,20 +27,23 @@ const maid_outfit = [
     { category: "headwear", itemtowear: "mask_kigu_cutemaid", color: null },
     { category: "wearable", itemtowear: "maid_headdress", color: null },
     { category: "heavy", itemtowear: "straitjacket_maid", color: null },
+    { category: "end", itemtowear: "legbinder_maid", color: null },
 ];
 
+// Validated 05/05/26
 const ponygirl_outfit = [
     { category: "chastitybelt", itemtowear: "belt_silver", color: null },
     { category: "chastitybra", itemtowear: "bra_silver", color: null },
     { category: "collar", itemtowear: "collar_posture", color: null },
     { category: "mittens", itemtowear: "mittens_leather", color: null },
-    { category: "wearable", itemtowear: "ponyboots_leather", color: "Red" },
     { category: "wearable", itemtowear: "ponytack_leather", color: "Red" },
+    { category: "heavy", itemtowear: "armbinder_leather", color: null },
+    { category: "wearable", itemtowear: "ponyboots_leather", color: "Red" },
     { category: "headwear", itemtowear: "blindfold_leather", color: null },
     { category: "gag", itemtowear: "ball", color: null },
     { category: "wearable", itemtowear: "headharness_leather", color: "Red" },
     { category: "wearable", itemtowear: "blinkers_leather", color: "Red" },
-    { category: "heavy", itemtowear: "armbinder_leather", color: null },
+    { category: "end", itemtowear: "leashing_post", color: null },
 ];
 
 const bunnygirl_outfit = [
@@ -299,23 +302,23 @@ const dryad_outfit = [
 
 const mimicCostumes = {
     maid_outfit: maid_outfit,
-    ponygirl_outfit: ponygirl_outfit,
-    bunnygirl_outfit: bunnygirl_outfit,
-    princess_outfit: princess_outfit,
-    lewd_princess_outfit: lewd_princess_outfit,
-    kitsune_outfit: kitsune_outfit,
-    librarian_outfit: librarian_outfit,
-    rogue_outfit: rogue_outfit,
-    dancer_outfit: dancer_outfit,
-    paladin_outfit: paladin_outfit,
-    ranger_outfit: ranger_outfit,
-    healer_outfit: healer_outfit,
-    witch_outfit: witch_outfit,
-    angel_outfit: angel_outfit,
-    mermaid_outfit: mermaid_outfit,
-    mer_maid_outfit: mer_maid_outfit,
-    cheerleader_outfit: cheerleader_outfit,
-    dryad_outfit: dryad_outfit,
+    //ponygirl_outfit: ponygirl_outfit,
+    //bunnygirl_outfit: bunnygirl_outfit,
+    //princess_outfit: princess_outfit,
+    //lewd_princess_outfit: lewd_princess_outfit,
+    //kitsune_outfit: kitsune_outfit,
+    //librarian_outfit: librarian_outfit,
+    //rogue_outfit: rogue_outfit,
+    //dancer_outfit: dancer_outfit,
+    //paladin_outfit: paladin_outfit,
+    //ranger_outfit: ranger_outfit,
+    //healer_outfit: healer_outfit,
+    //witch_outfit: witch_outfit,
+    //angel_outfit: angel_outfit,
+    //mermaid_outfit: mermaid_outfit,
+    //mer_maid_outfit: mer_maid_outfit,
+    //cheerleader_outfit: cheerleader_outfit,
+    //dryad_outfit: dryad_outfit,
 };
 
 //*/ Shuffler Application
@@ -360,8 +363,8 @@ let functiontick = async (userID) => {
 
     // Only update a max of once every 20 seconds. 
     if ((process.userevents[userID].costumermimic.nextupdate ?? 0) < Date.now()) {
-        //process.userevents[userID].costumermimic.nextupdate = Date.now() + 3000; // Test Speed
-        process.userevents[userID].costumermimic.nextupdate = Date.now() + 20000;
+        process.userevents[userID].costumermimic.nextupdate = Date.now() + 2000; // Test Speed
+        //process.userevents[userID].costumermimic.nextupdate = Date.now() + 20000;
     }
     else { return };
 
@@ -418,7 +421,7 @@ let functiontick = async (userID) => {
             console.log("Not enough Clothes remaining for a full cycle! Skipping to stage 3!")
             // Skip to Stage 4 and consume all remaining items
             process.userevents[userID].costumermimic.stage = 3
-        } else if (shuffledclothes.length == 0){
+        } else if (shuffledclothes.length == 0) {
             // Victim Stripped of all unprotected clothing unexpectedly, progress to next stage
             console.log("Unexpectedly Naked! Skipping to Dress Up!")
             process.userevents[userID].costumermimic.stage = 4;
@@ -467,7 +470,7 @@ let functiontick = async (userID) => {
     }
 
     // Apply Outfit Items once stripped until last index of array is reached or a heavy item is found
-    if (process.userevents[userID].costumermimic.stage >= 4 && process.userevents[userID].costumermimic.costumeidx < mimicCostumes[process.userevents[userID].costumermimic.outfit].length && nextitem.category != "heavy") {
+    if (process.userevents[userID].costumermimic.stage >= 4 && process.userevents[userID].costumermimic.costumeidx < mimicCostumes[process.userevents[userID].costumermimic.outfit].length && nextitem.category != "end") {
 
         data.applyingOutfit = true;
         switch (nextitem.category) {
@@ -612,6 +615,23 @@ let functiontick = async (userID) => {
                 process.userevents[userID].costumermimic.costumeidx++;
                 break;
 
+            case "heavy":
+                if (!getHeavy(userID, nextitem.itemtowear)) {
+                    // Apply the Heavy Restraint 
+                    assignHeavy(userID, nextitem.itemtowear, process.userevents[userID].costumermimic.origbinder);
+
+                    // Configure Message Parameters                    
+                    data.heavyrestraint = true;
+                    data.textdata.c1 = getHeavy(userID, nextitem.itemtowear).displayname; // heavy name
+                    data.add = true;
+                    
+                    //Send Message to Channel
+                    messageSendChannel(getText(data), process.recentmessages[userID]);
+                }
+                // Increment Costume Index
+                process.userevents[userID].costumermimic.costumeidx++;
+                break;
+
             default:
                 // Unknown Item Category in Outfit
                 data.unknown = true;
@@ -624,7 +644,7 @@ let functiontick = async (userID) => {
         }
 
         if (process.userevents[userID].costumermimic.costumeidx >= mimicCostumes[process.userevents[userID].costumermimic.outfit].length) {
-            // Remove Current Heavy (Mimic) if end of Costume Array Reached Without Heavy
+            // Remove Current Heavy (Mimic) if end of Costume Array Reached Without End Marker
             let data = {
                 textarray: "texts_eventfunctions",
                 textdata: {
@@ -641,18 +661,18 @@ let functiontick = async (userID) => {
         }
 
 
-    } else if (nextitem.category == "heavy" || process.userevents[userID].costumermimic.costumeidx >= mimicCostumes[process.userevents[userID].costumermimic.outfit].length) {
-        // Final Stage - Remove Mimic Heavy and spit them out, then apply Outfit Heavy!
-        // heavy item reached or end of outfit reached        
+    } else if (nextitem.category == "end" || process.userevents[userID].costumermimic.costumeidx >= mimicCostumes[process.userevents[userID].costumermimic.outfit].length) {
+        // Final Stage - Remove Mimic Heavy and spit them out, then apply Closing Heavy!
+        // End of Outfit Marker Reached!        
 
         // Remove Current Heavy (Mimic)
         removeHeavy(userID, "costumer_mimic");
         data.spitout = true;
 
         // Apply New Heavy
-        if (nextitem.itemtowear && nextitem.category == "heavy") {
+        if (nextitem.itemtowear && nextitem.category == "end") {
             assignHeavy(userID, nextitem.itemtowear, process.userevents[userID].costumermimic.origbinder);
-            data.textdata.c1 = getHeavy(userID).displayname; // heavy name
+            data.textdata.c1 = getHeavy(userID, nextitem.itemtowear).displayname; // heavy name
             data.add = true;
             messageSendChannel(getText(data), process.recentmessages[userID]);
         } else {

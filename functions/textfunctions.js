@@ -4287,6 +4287,7 @@ const texts_eventfunctions = {
 				collar: { replace: [`The Costumer Mimic forces USER_TAG to lean forward as it removes USER_THEIR VAR_C1, consuming it as it instead secures a VAR_C2 around USER_THEIR throat.`], add: [`USER_TAG is forced to lean forward as the Costumer Mimic moves USER_THEIR hair out of the way and wraps a VAR_C2 around USER_THEIR throat.`] },
 				headwear: { add: [`The Costumer Mimic produces a VAR_C1 from within itself and secures it onto USER_TAG's head.`] },
 				gag: { add: [`The Costumer Mimic pulls a VAR_C1 from its storage and secures it into USER_TAG's mouth.`] },
+				heavyrestraint: { add: [`The Costumer Mimic pulls a VAR_C1 from its storage and securely binds USER_TAG with it.`] },
 				unknown: [`The Costumer Mimic tries to dress USER_TAG in a VAR_C1... but it seems to be missing from its storage. Perhaps it ran out of space?`],
 			},
 			spitout: { 
@@ -4297,6 +4298,12 @@ const texts_eventfunctions = {
 							return t.c1.includes("Vines");
 						},
 						text: `The Costumer Mimic finishes dressing USER_TAG and reluctantly spits USER_THEM out, fully dressed in its chosen costume... but before USER_THEY get far, the VAR_C1 from USER_THEIR costume take root~.`,
+					},
+					{
+						only: (t) => {
+							return t.c1.includes("Leashing");
+						},
+						text: `The Costumer Mimic finishes dressing USER_TAG and reluctantly spits USER_THEM out, fully dressed in its chosen costume... but as USER_THEY wobbles in USER_THEIR new heels, the Mimic hitches USER_THEM to a nearby VAR_C1~.`,
 					},
 				], 
 				none: [`The Costumer Mimic finishes dressing USER_TAG and reluctantly spits USER_THEM out, fully dressed in its chosen costume.`] },
