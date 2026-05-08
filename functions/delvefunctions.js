@@ -64,10 +64,10 @@ const delveroomchoices = {
         name: "Deepbound Palace Entrance",
         hintdesc: "BUG",
         shortdesc: "An ornate door stands in front of you, an entrance to an underground crypt and it's lined with images of restraints.",
-        longdesc: "You arrive at the entrance of the Deepbound Palace. It's smooth wall is decorated by images of people wearing restraints and a mural above the door depicting several kneeling submissives around a woman sitting in a chair. She is clad with what you recognize to be a black minidress in the image. The door handle is unremarkable, but it reminds you of a handle for a flogger. ",
+        longdesc: "You arrive at the entrance of the Deepbound Palace. It's smooth wall is decorated by images of people wearing restraints and a mural above the door depicting several kneeling submissives around a woman sitting in a chair. She is clad with what you recognize to be a black minidress in the image. The door handle is unremarkable, but it reminds you of a handle for a flogger.",
         extradesc: (userID, text, delvedata, resolve) => { return text },
         revisitshortdesc: "You step back out of the bondage crypt and into the sunlight.",
-        revisitlongdesc: "The warmth of the sun washes over you as you step out of the crypt full of restraints. A forest stretches all around your vision, blocking any reasonable traversal away from here. You might as well head back in...",
+        revisitlongdesc: "You're standing just inside the entrance to the bondage crypt. The pitter patter of the rain can be heard outside, along with the hint of light from the entrance of the Deepbound Palace. The sounds of the outdoor world are already so far away, so you might as well head on inside!",
         revisitextradesc: (userID, text, delvedata, resolve) => { return text },
         choices: [
             {
@@ -320,7 +320,7 @@ function setNextDelveRoom(user, choice) {
     if ((getCurrentFloor(user) == undefined)) {
         process.delveuserdata[user] = {
             floorarr: ["delveentrance"],
-            floorscompleted: 0,
+            floorscompleted: -1,
             floor: 0,
             tempbuffs: [],
         }
@@ -400,12 +400,16 @@ function setDelveFloorState(user, floor, prop, value) {
  * - (user ID) user - The user ID doing the delve
  * - (integer) floor - The floor number the user is visiting.
  *******/
-function generateDelveModal(user, floor) {
-    let floordata = delveroomchoices[floor] ?? delveroomchoices["errorroom"]
+async function generateDelveModal(user, floor) {
+    let floordata = delveroomchoices[process.delveuserdata[user]?.floorarr[floor]] ?? delveroomchoices["errorroom"]
     let delveuserdata = process.delveuserdata[user]
+    console.log(getCurrentFloor(user))
+    console.log(delveuserdata)
 
     let floortext = floordata[`${ getCurrentFloor(user) > delveuserdata.floorscompleted ? "" : "revisit" }longdesc`]
-    floortext = floordata[`${ getCurrentFloor(user) > delveuserdata.floorscompleted ? "" : "revisit" }extradesc`]()
+    console.log(floortext)
+    floortext = floordata[`${ getCurrentFloor(user) > delveuserdata.floorscompleted ? "" : "revisit" }extradesc`](user, floortext)
+    console.log(floortext)
 
     // Set room choice buttons!
     // Alternatively, select 3 random floors by vaguedescription to display if the current floor is completed, but floors length is not longer.
@@ -449,7 +453,7 @@ function generateDelveModal(user, floor) {
     }
     // Else, if theyve completed the primary action, generate a list of buttons as options where to go
     else if ((delveuserdata.floorarr.length - 1) == getCurrentFloor(user)) {
-        let roomchoices = chooseNextRooms(user, 3);
+        roomchoices = chooseNextRooms(user, 3);
         roomchoices = roomchoices.map((r) => {
             return new ButtonBuilder()
                         .setCustomId(`delve_${floor}_newroom_${r}`)
@@ -482,27 +486,34 @@ function generateDelveModal(user, floor) {
             .setStyle(ButtonStyle.Secondary)
             .setDisabled((floor > (process.delveuserdata && process.delveuserdata[user] && process.delveuserdata[user].floorscompleted))) // Disable if current floor is NOT completed
     ];
-    
+
     let outcontainer = new ContainerBuilder()
         .setAccentColor(floordata.accentcolor)
-        .addTextDisplayComponents((td) => {
-            td.setContent(floortext)
-        })
-
+        .addTextDisplayComponents((td) => 
+            td.setContent(
+                floortext
+            ),
+        )
         .addSeparatorComponents((sep) => sep);
 
     if (roomchoices.length > 0) {
-        outcontainer.addActionRowComponents((ar) => {
-            ar.setComponents(...roomchoices)
-        })
         outcontainer.addSeparatorComponents((sep) => sep);
+        outcontainer.addTextDisplayComponents((td) => 
+            td.setContent(
+                `In the next room you see...`
+            ),
+        )
+        outcontainer.addActionRowComponents((ar) => 
+            ar.addComponents(...roomchoices)
+        )
     }
 
-    ar.addActionRowComponents((ar) => {
-        ar.setComponents(...moveroomchoices)
-    })
+    outcontainer.addSeparatorComponents((sep) => sep);
+    outcontainer.addActionRowComponents((ar) => 
+        ar.addComponents(...moveroomchoices)
+    )
 
-    return { components: outcontainer, flags: [MessageFlags.IsComponentsV2] }
+    return { components: [outcontainer], flags: [MessageFlags.IsComponentsV2] }
 }
 
 /********
@@ -541,7 +552,7 @@ function chooseNextRooms(user, roomnumber) {
         let roomarr = arrayShuffle(Object.keys(roomrolls).map((r) => roomrolls[r]));
 
         // Now determine the max number we can go to by weight
-        let weightmax = roomarr.reduce((prev, curr) => { prev += curr.weight }, 0)
+        let weightmax = roomarr.reduce((prev, curr) => { return (prev += curr.weight) }, 0)
 
         // Roll a random number between 0 and the weight max.
         let weightroll = Math.random() * weightmax;
@@ -559,7 +570,9 @@ function chooseNextRooms(user, roomnumber) {
         // Now cull this from the list. If we have less than 3 eligible rooms, provide less than 3 rooms
         delete roomrolls[roomarr[roomiterator].id];
     }
-    return roomrolls;
+
+    console.log(outrooms);
+    return outrooms;
 }
 
 /********
@@ -580,12 +593,46 @@ function arrayShuffle(arr) {
 }
 
 /*******
+ * Handle Delve slash command interactions
+ * 
+ * (interaction) interaction - the interaction received
+ *******/
+async function handleDelveSlashCommand(interaction) {
+    let currfloor = getCurrentFloor(interaction.user.id);
+    if (currfloor === undefined) {
+        // They are NOT on a delve right now. We should have one generated. 
+        setNextDelveRoom(interaction.user.id);
+    }
+    console.log(getCurrentFloor(interaction.user.id))
+    interaction.reply(await generateDelveModal(interaction.user.id, getCurrentFloor(interaction.user.id)))
+}
+
+/*******
  * Handle Delve command interactions
  * 
  * (interaction) interaction - the interaction received
  *******/
 function handleDelveInteraction(interaction) {
     console.log(interaction);
+
 }
 
+/*******
+ * Get player stats from process.delvestats if it exists. Otherwise, create a template for the player. 
+ * 
+ * (user id) user - User ID doing the Delve
+ *******/
+function getDelvePlayerStats(user) {
+    if (process.delveuserstats == undefined) { process.delveuserstats = {} }
+    if (process.delveuserstats[user]) {
+        // They started a delve, return the floor
+        return process.delveuserstats[user].floor
+    }
+    else {
+        // They're not in the Delve.
+        return undefined;
+    }
+}
+
+exports.handleDelveSlashCommand = handleDelveSlashCommand;
 exports.handleDelveInteraction = handleDelveInteraction;

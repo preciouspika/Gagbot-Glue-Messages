@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { handleDelveInteraction } = require("../functions/delvefunctions.js");
+const { handleDelveInteraction, handleDelveSlashCommand } = require("../functions/delvefunctions.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,9 +11,17 @@ module.exports = {
                 interaction.reply(`You're not <@${process.client.application.owner.id}>. This command is currently in development and is not available for others to run.`)
                 return;
             }
-            handleDelveInteraction(interaction)
+            await handleDelveSlashCommand(interaction);
 		} catch (err) {
 			console.log(err);
 		}
-	}
+	},
+    async interactionresponse(interaction) {
+        try {
+            await handleDelveInteraction(interaction)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 };
