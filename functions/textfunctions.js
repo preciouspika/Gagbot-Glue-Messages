@@ -4456,6 +4456,15 @@ const getTextGeneric = (type, data_in) => {
         ],
         return_key_chastitybra: [
             `USER_TAG gives TARGET_TAG TARGET_THEIR keys back for TARGET_THEIR breasts. Best not to lose them again!`
+        ],
+        buttonboard: [
+            `USER_TAG presses the VAR_C1 button. What doUSER_ES USER_THEY mean?`,
+            `USER_TAG presses the VAR_C1 button. What is USER_THEY saying?`,
+            `The VAR_C1 is pressed! What is USER_TAG saying?`,
+            `USER_TAG is saying VAR_C1... Who knows what it means?`,
+            `USER_TAG gently boops the VAR_C1 button!`,
+            `In response, USER_TAG presses VAR_C1, of all the buttons!`,
+            `USER_TAG stares at the buttons on the floor before pressing the VAR_C1 one!`
         ]
 	};
 

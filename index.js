@@ -20,6 +20,7 @@ const { getAllJoinedGuilds } = require('./functions/configfunctions.js');
 const { setUpToys } = require('./functions/toyfunctions.js');
 const { setUpChastity } = require('./functions/chastityfunctions.js');
 const { loadCollarTypes } = require('./functions/collarfunctions.js');
+const { buttonboard } = require('./contextcommands/message/Button Board.js');
 
 // Prevent node from killing us immediately when we do the next line.
 process.stdin.resume();
@@ -404,6 +405,9 @@ client.on('interactionCreate', async (interaction) => {
                 if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.collar && process.extraconfigresponsefunctions.collar[interaction.customId.split("_")[1]]) {
                     process.extraconfigresponsefunctions.collar[interaction.customId.split("_")[1]](interaction);
                 }
+            }
+            else if (interaction.customId.startsWith("buttonboard")) {
+                buttonboard(interaction); // The button board reply function is in contextcommands/message/Button Board.js
             }
             const [key, ...args] = interaction.customId.split("-");
             componentHandlers.get(key)?.handle(interaction, ...args);
