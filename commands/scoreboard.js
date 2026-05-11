@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ComponentType, ButtonStyle, MessageFlags, TextDisplayBuilder } = require("discord.js");
+const { SlashCommandBuilder, ComponentType, ButtonStyle, MessageFlags, TextDisplayBuilder, AllowedMentionsTypes } = require("discord.js");
 const { ButtonBuilder } = require("discord.js");
 const { ActionRowBuilder } = require("discord.js");
 const { StringSelectMenuOptionBuilder } = require("discord.js");
@@ -51,7 +51,7 @@ async function generateList(menuchoice) {
 	menupageoptions.addOptions(...menupageoptionsarr);
 	pagecomponents.push(new ActionRowBuilder().addComponents(menupageoptions));
 
-	return { components: pagecomponents, flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral] };
+	return { components: pagecomponents, flags: [MessageFlags.IsComponentsV2], allowedMentions: { parse: [] } };
 }
 
 module.exports = {
