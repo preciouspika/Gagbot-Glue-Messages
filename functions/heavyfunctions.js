@@ -154,6 +154,10 @@ const heavytypes = [
     { name: "Master Sphere", value: "capture_sphere_master", tags: ["confined", "dimensional"], denialCoefficient: 9, heavytags: ["arms", "legs"] },
     { name: "Portal Cuffs (Arms)", value: "portalcuffs_arms", tags: ["dimensional"], denialCoefficient: 10, heavytags: ["arms"] },
     { name: "Portal Cuffs (Legs)", value: "portalcuffs_legs", tags: ["dimensional"], denialCoefficient: 1.5, heavytags: ["legs"] },
+    { name: "Arcane Bindings (Upper Arms)", value: "arcanebinding_armsupper", tags: ["magic"], denialCoefficient: 10, heavytags: ["arms"] },
+    { name: "Arcane Bindings (Lower Arms)", value: "arcanebinding_armslower", tags: ["magic"], denialCoefficient: 10, heavytags: ["arms"] },
+    { name: "Arcane Bindings (Upper Legs)", value: "arcanebinding_legsupper", tags: ["magic"], denialCoefficient: 10, heavytags: ["legs"] },
+    { name: "Arcane Bindings (Lower Legs)", value: "arcanebinding_legslower", tags: ["magic"], denialCoefficient: 10, heavytags: ["legs"] },
 
     // Containers
     { name: "Pet Cage", value: "pet_cage", tags: ["pet"], denialCoefficient: 4, heavytags: ["container"] },
@@ -173,6 +177,7 @@ const heavytypes = [
     { name: "Delivery Crate", value: "crate_delivery", tags: ["confined"], denialCoefficient: 4, heavytags: ["container", "arms", "legs"] },
     { name: "Pet Carrier", value: "petcarrier", tags: ["pet", "confined"], denialCoefficient: 4, heavytags: ["container"] },
 	{ name: "Duffel Bag", value: "duffel_bag", tags: ["confined"], denialCoefficient: 2, heavytags: ["container"] },
+    { name: "Magic Binding Circle", value: "bindingcircle", tags: ["magic"], denialCoefficient: 1, heavytags: ["container"] },
 
 	// Heavy Restraints with unique name functions
 	{

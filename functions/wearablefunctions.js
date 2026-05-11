@@ -13,6 +13,7 @@ let wearabletypes = [
 	{ name: "Vine Hair", value: "hair_vine", category: "Body Part", colorable: true, uniqueColors: ["Flowery", "Verdant"] , forbiddenColors: ["Black", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 	{ name: "Vampire Fangs", value: "fangs_vampire", category: "Body Part" },
 	{ name: "Halo", value: "halo", category: "Body Part", colorable: true, uniqueColors: ["Angelic", "Ghostly", "Ethereal", "Holy Light", "Cyber"] },
+    { name: "Eyes", value: "eyes", category: "Body Part", colorable: true, uniqueColors: ["Starry", "Stellar", "Cosmic", "Fiery", "Verdant", "Angelic", "Cybernetic", "Snake", "Cat", "Demon"] },
 
 	// Hats
 	{ name: "Stylish Hat", value: "stylish_hat", category: "Hat", colorable: true },
@@ -79,8 +80,8 @@ let wearabletypes = [
 	{ name: "Latex Apron", value: "maidapron_latex", colorable: true, category: "Cosplay", forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 	{ name: "Maid Headdress", value: "maid_headdress", category: "Cosplay", },
 	{ name: "Maid Badge of Office", value: "maid_badge", colorable: true, category: "Cosplay", uniqueColors: ["Brass", "Silver", "Gold"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
-	{ name: "Butler's Tailcoat", value: "butler_tailcoat", colorable: true, category: "Cosplay" },
-	{ name: "Butler's Waistcoat", value: "butler_waistcoat", colorable: true, category: "Cosplay" },
+	{ name: "Butler's Tailcoat", value: "butler_tailcoat", colorable: true, category: "Cosplay", uniqueColors: ["Demon"] },
+	{ name: "Butler's Waistcoat", value: "butler_waistcoat", colorable: true, category: "Cosplay", uniqueColors: ["Demon"] },
 
 	//Dolls and Drones
 	{ name: "Drone Suit", value: "dronesuit", colorable: true, category: "Doll" },
@@ -330,6 +331,8 @@ let wearabletypes = [
 	{ name: "Septum Piercing", value: "septum_piercing", colorable: true, category: "Body Modification", uniqueColors: ["Silver", "Gold", "Platinum", "Cobalt", "Black", "Starmetal", "Titanium"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 	{ name: "Nostril Piercing", value: "nostril_piercing", colorable: true, category: "Body Modification", uniqueColors: ["Silver", "Gold", "Platinum", "Cobalt", "Black", "Starmetal", "Titanium"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 	{ name: "Womb Tattoo", value: "wombtat", category: "Body Modification", colorable: true, uniqueColors: ["Glowing", "Starry", "Shimmering", "Cyber"] },
+    { name: "Arcane Tattoos", value: "tattoos_arcane", category: "Body Modification", colorable: true, uniqueColors: ["Glowing", "Starry", "Shimmering"] },
+    { name: "Markings", value: "tattoos_markings", category: "Body Modification", colorable: true, uniqueColors: ["Demonic", "Cyber", "Feline", "Cat", "Aquatic", "Ghostly", "Ethereal"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 ];
 
 // Each colorable entry above will have a copy of the following added
