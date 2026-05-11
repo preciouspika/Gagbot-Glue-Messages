@@ -51,7 +51,7 @@ async function generateList(menuchoice) {
 	menupageoptions.addOptions(...menupageoptionsarr);
 	pagecomponents.push(new ActionRowBuilder().addComponents(menupageoptions));
 
-	return { components: pagecomponents, flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral] };
+	return { components: pagecomponents, flags: [MessageFlags.IsComponentsV2] };
 }
 
 module.exports = {
