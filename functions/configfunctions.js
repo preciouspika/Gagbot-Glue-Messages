@@ -2072,6 +2072,54 @@ const configoptions = {
 				return false;
 			},
 		},
+        "extreme-gag-headpatslut": {
+			name: "Gag - Headpat Slut",
+			desc: "Fully prevents communication unless headpatted",
+			prompttext: `The Headpat Slut gag will only permit speech for two minutes after receiving a headpat.`,
+			choices: [
+				{
+					name: "Disabled",
+					helptext: "*Headpat Slut Gag is disabled*",
+					select_function: (interaction, serverID) => {
+						return false;
+					},
+					value: "Disabled",
+					style: ButtonStyle.Danger,
+				},
+				{
+					name: "Prompt",
+					helptext: "You will be prompted when this is put on you",
+					select_function: (interaction, serverID) => {
+						return false;
+					},
+					value: "Prompt",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Prompt (Others)",
+					helptext: "You will be prompted when others put this on you",
+					select_function: (interaction, serverID) => {
+						return false;
+					},
+					value: "PromptOthers",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Enabled",
+					helptext: "⚠️ You will automatically accept this restraint",
+					select_function: (interaction, serverID) => {
+						return false;
+					},
+					value: "Enabled",
+					style: ButtonStyle.Secondary,
+				},
+			],
+			menutype: "choice",
+			default: "Prompt",
+			disabled: () => {
+				return false;
+			},
+		},
 	},
 	Server: {
 		"server-allowgags": {
