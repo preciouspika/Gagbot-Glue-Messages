@@ -3,7 +3,7 @@ const { getUserVar } = require("../functions/usercontext");
 
 const headpatlines = [
     `USER_TAG needs a headpat...`,
-    `Tilting USER_THEIR head towards the audience, USER_TAG silently begs for a headpat`,
+    `Tilting USER_THEIR head towards the audience, USER_TAG silently begs for a headpat!`,
     `USER_TAG pleads with everyone to pat USER_THEIR head!`,
     `USER_TAG behaves like a good USER_PRAISEOBJECT and waits to get a headpat!`,
     `USER_TAG flushes when USER_THEY goUSER_ES to speak. So cute!`,
