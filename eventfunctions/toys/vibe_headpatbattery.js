@@ -1,5 +1,5 @@
 const { getCollar } = require("../../functions/collarfunctions");
-const { getBotOption } = require("../../functions/configfunctions");
+const { getBotOption, getOption } = require("../../functions/configfunctions");
 const { assignGag } = require("../../functions/gagfunctions");
 const { messageSendChannel } = require("../../functions/messagefunctions");
 const { getPronouns } = require("../../functions/pronounfunctions");
@@ -13,9 +13,9 @@ function headpatfunction(recipient, headpatter, returnedobject) {
         if (newcharge == 0.0) {
             messageSendChannel(`The headpat gives enough charge to start up a vibrator...`, process.recentmessages[recipient])
         }
-        newcharge = newcharge + 0.05
+        newcharge = newcharge + (0.05 * getOption(recipient, "headpatrestraintpotency"))
         if (returnedobject.crit) {
-            newcharge = newcharge + 0.05 // double charge for crits
+            newcharge = newcharge + (0.05 * getOption(recipient, "headpatrestraintpotency")) // double charge for crits
         }
     }
     setUserVar(recipient, "headpatvibecharge", newcharge);

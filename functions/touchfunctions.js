@@ -141,9 +141,11 @@ function doHeadpatFunctions(headpatter, recipient, returnedobject) {
 	// Heavy Bondage
 	if (process.heavy) {
         if (getHeavy(recipient)) {
-            if (process.headpatfunctions.heavy && process.headpatfunctions.heavy[getHeavy(recipient).typeval]) {
-                process.headpatfunctions.heavy[getHeavy(recipient).typeval](recipient, headpatter, returnedobject);
-            }
+            process.heavy[recipient].forEach((heavy) => {
+                if (process.headpatfunctions.heavy && process.headpatfunctions.heavy[heavy.type]) {
+                    process.headpatfunctions.heavy[heavy.type](recipient, headpatter, returnedobject);
+                }
+            })
         }
 	}
 	// Wearables

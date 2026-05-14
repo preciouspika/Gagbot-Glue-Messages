@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
+const { getOption } = require("./configfunctions");
+const { getUserVar } = require("./usercontext");
 
 const heavytypes = [
 	// Armbinders
@@ -158,6 +160,7 @@ const heavytypes = [
     { name: "Arcane Bindings (Lower Arms)", value: "arcanebinding_armslower", tags: ["magic"], denialCoefficient: 10, heavytags: ["arms"] },
     { name: "Arcane Bindings (Upper Legs)", value: "arcanebinding_legsupper", tags: ["magic"], denialCoefficient: 10, heavytags: ["legs"] },
     { name: "Arcane Bindings (Lower Legs)", value: "arcanebinding_legslower", tags: ["magic"], denialCoefficient: 10, heavytags: ["legs"] },
+    { name: "Wind-up Clockwork Key", value: "windupclockwork", tags: [], denialCoefficient: 1, heavytags: ["arms"] },
 
     // Containers
     { name: "Pet Cage", value: "pet_cage", tags: ["pet"], denialCoefficient: 4, heavytags: ["container"] },
@@ -456,9 +459,16 @@ const getHeavyRestrictions = (user) => {
     else {
         process.heavy[user].forEach((heavy) => {
             if (getBaseHeavy(heavy.type).heavytags.includes("arms")) {
-                returnobject.heavytags.push("arms");
-                returnobject.touchself = false;
-                returnobject.touchothers = false;
+                if ((heavy.type == "windupclockwork") && (getUserVar(user, "windupcharge") <= 0.0005)) {
+                    returnobject.heavytags.push("arms");
+                    returnobject.touchself = false;
+                    returnobject.touchothers = false;
+                }
+                else if (heavy.type != "windupclockwork") {
+                    returnobject.heavytags.push("arms");
+                    returnobject.touchself = false;
+                    returnobject.touchothers = false;
+                }
             }
             if (getBaseHeavy(heavy.type).heavytags.includes("legs")) {
                 returnobject.heavytags.push("legs");

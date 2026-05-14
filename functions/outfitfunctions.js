@@ -1271,6 +1271,12 @@ async function getDisplayTexts(userID, inspectuserID) {
     }
     // ******************
 
+    // ****************** Headpat Battery
+    if (getHeavy(inspectuserID, "windupclockwork")) {
+        bartext = `${bartext}\n\n🕰️ Wind-up Key Tension: **${Math.round(getUserVar(inspectuserID, "windupcharge") * 100)}%**`
+    }
+    // ******************
+
     return bartext.slice(1); // Cut the first linebreak for better look
 }
 

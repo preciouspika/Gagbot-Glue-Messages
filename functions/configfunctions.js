@@ -1170,6 +1170,57 @@ const configoptions = {
 				return false;
 			},
 		},
+        headpatrestraintpotency: {
+			name: "Headpat Restraint Potency",
+			desc: "How long should headpats affect their specific restraints?",
+			choices: [
+				{
+					name: "0.5x",
+					helptext: "Effects are half as long",
+					select_function: (userID) => {
+						return false;
+					},
+					value: 0.5,
+					style: ButtonStyle.Secondary,
+					uname: "headpatpotency05x",
+				},
+				{
+					name: "1x",
+					helptext: "Effects are standard length",
+					select_function: (userID) => {
+						return false;
+					},
+					value: 1,
+					style: ButtonStyle.Secondary,
+					uname: "headpatpotency1x",
+				},
+				{
+					name: "2x",
+					helptext: "Effects are twice as long",
+					select_function: (userID) => {
+						return false;
+					},
+					value: 2,
+					style: ButtonStyle.Secondary,
+					uname: "headpatpotency2x",
+				},
+                {
+					name: "3x",
+					helptext: "Effects are thrice as long",
+					select_function: (userID) => {
+						return false;
+					},
+					value: 3,
+					style: ButtonStyle.Secondary,
+					uname: "headpatpotency3x",
+				},
+			],
+			menutype: "choice",
+			default: 1,
+			disabled: (userID) => {
+				return false;
+			},
+		},
 	},
     Content: {
         "wearabletags-latex": {
