@@ -34,7 +34,9 @@ module.exports = {
         if (outfits.length > 0) {
             choices = [];
             for (let i = 0; i < outfits.length; i++) {
-                choices.push({ name: `Slot ${i + 1}: ${outfits[i].outfitname ?? "Unnamed Outfit"}`, value: i })
+                if (outfits[i]) {
+                    choices.push({ name: `Slot ${i + 1}: ${(outfits[i].outfitname) ?? "Unnamed Outfit"}`, value: i })
+                }
             }
         }
         await interaction.respond(choices)
