@@ -3,9 +3,9 @@ const { messageSendChannel } = require("../../functions/messagefunctions");
 const { getUserVar, setUserVar } = require("../../functions/usercontext");
 
 // Successful headpats will increase the windup on the wearer by 15 minutes, up to 3 hours. This is 1/12th of the charge, or 8.33%. 
-function headpatfunction(recipient, headpatter, returnedobject) {
+function headpatfunction(recipient, data) {
     let newcharge = (getUserVar(recipient, "windupcharge") ?? 0.0)
-    if (returnedobject.hit) {
+    if (data.returnedobject.hit) {
         if (newcharge == 0.0) {
             //messageSendChannel(`The headpat winds up a key...`, process.recentmessages[recipient])
         }

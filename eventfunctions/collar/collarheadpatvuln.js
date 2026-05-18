@@ -6,12 +6,12 @@ const { getTextGeneric } = require("../../functions/textfunctions");
 const { getUserVar, setUserVar } = require("../../functions/usercontext");
 
 // Since headpats can only ever crit if they hit, then we should just simply check for that! 
-function headpatfunction(recipient, headpatter, returnedobject) {
+function headpatfunction(recipient, data) {
     const critheadpatmessages = [
         `The headpat felt so good that it left <@${recipient}> stunned for a few moments! One could capitalize on this opportunity to further bind ${getPronouns(recipient, "object")}!`,
         `<@${recipient}>'s eyes are a bit hazy as ${getPronouns(recipient, "subject")} is lost in thought after that headpat. ${getPronouns(recipient, "subject", true)} could probably easily be bound right now...`
     ]
-    if (returnedobject && returnedobject.crit && !getUserVar(recipient, "headpatvulntimer")) {
+    if (data.returnedobject && data.returnedobject.crit && !getUserVar(recipient, "headpatvulntimer")) {
         messageSendChannel(critheadpatmessages[Math.floor(Math.random() * critheadpatmessages.length)], process.recentmessages[recipient])
         setUserVar(recipient, "headpatvulntimer", Date.now() + 300000)
         if (getCollar(recipient).keyholder_only) {
@@ -25,8 +25,8 @@ async function tick(userid, data) {
     if (getUserVar(userid, "headpatvulntimer") && (Date.now() > getUserVar(userid, "headpatvulntimer"))) {
         setUserVar(userid, "headpatvulntimer", undefined);
     }
-    if (getCollar(recipient).headpatvulnerable < Date.now()) {
-        getCollar(recipient).headpatvulnerable = undefined;
+    if (getCollar(userid).headpatvulnerable < Date.now()) {
+        getCollar(userid).headpatvulnerable = undefined;
     }
 }
 
