@@ -12,7 +12,12 @@ function headpatfunction(recipient, data) {
         `<@${recipient}>'s eyes are a bit hazy as ${getPronouns(recipient, "subject")} is lost in thought after that headpat. ${getPronouns(recipient, "subject", true)} could probably easily be bound right now...`
     ]
     if (data.returnedobject && data.returnedobject.crit && !getUserVar(recipient, "headpatvulntimer")) {
-        messageSendChannel(critheadpatmessages[Math.floor(Math.random() * critheadpatmessages.length)], process.recentmessages[recipient])
+        try {
+            messageSendChannel(critheadpatmessages[Math.floor(Math.random() * critheadpatmessages.length)], process.recentmessages[recipient])
+        }
+        catch (err) {
+            console.log(err)
+        }
         setUserVar(recipient, "headpatvulntimer", Date.now() + 300000)
         if (getCollar(recipient).keyholder_only) {
             getCollar(recipient).headpatvulnerable = (Date.now() + 300000);
