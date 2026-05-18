@@ -92,7 +92,7 @@ function rollPatChance(user, target) {
 
     // Do all of the functions for the person receiving the headpats.
     // Note, within the function we need to check if headpat was successful! 
-    emitEvent("headpatfunction", user, { target: target, returnedobject: returnedobject })
+    emitEvent("headpatfunction", target, { target: target, returnedobject: returnedobject })
 
     if (returnedobject.hit) {
         statsAddCounter(user, "headpatsgiven");
