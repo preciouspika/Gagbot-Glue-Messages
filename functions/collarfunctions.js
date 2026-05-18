@@ -218,7 +218,7 @@ const canAccessCollar = (collaruser, keyholder, unlock, cloning) => {
 		accessval.public = true;
 	}
     // Free use collar if not locked.
-	if (getCollar(collaruser)?.headpatvulnerable && (getCollar(collaruser)?.headpatvulnerable < Date.now())) {
+	if (getCollar(collaruser)?.headpatvulnerable && (getCollar(collaruser)?.headpatvulnerable >= Date.now())) {
 		accessval.access = true;
 		accessval.public = true;
 	}
