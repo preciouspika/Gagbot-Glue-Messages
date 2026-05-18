@@ -10,7 +10,7 @@ function headpatfunction(recipient, data) {
             //messageSendChannel(`The headpat winds up a key...`, process.recentmessages[recipient])
         }
         newcharge = newcharge + ((15/180) * getOption(recipient, "headpatrestraintpotency"))
-        if (returnedobject.crit) {
+        if (data.returnedobject.crit) {
             newcharge = newcharge + ((15/180) * getOption(recipient, "headpatrestraintpotency")) // double charge for crits
         }
     }
