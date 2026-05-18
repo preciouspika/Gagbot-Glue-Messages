@@ -21,6 +21,7 @@ const { setUpToys } = require('./functions/toyfunctions.js');
 const { setUpChastity } = require('./functions/chastityfunctions.js');
 const { loadCollarTypes } = require('./functions/collarfunctions.js');
 const { buttonboard } = require('./contextcommands/message/Button Board.js');
+const { setUpEventFunctions } = require('./functions/eventhandling.js');
 
 // Prevent node from killing us immediately when we do the next line.
 process.stdin.resume();
@@ -336,14 +337,12 @@ client.on('interactionCreate', async (interaction) => {
                 interactioncommand = "Edit Message"
             }
             else if (interactioncommand == "modalevent") {
-                if (process.modalexecutefunctions) {
-                    let filecommand = interaction.customId.split("_")[1]
-                    Object.keys(process.modalexecutefunctions).forEach((k) => {
-                        if (process.modalexecutefunctions[k][filecommand]) {
-                            process.modalexecutefunctions[k][filecommand](interaction)
-                            return;
-                        }
-                    })
+                if (process.eventfunctions) {
+                    let eventfunctionset = interaction.customId.split("_")[1].split("|")[0]
+                    let filecommand = interaction.customId.split("_")[1].split("|")[1]
+                    if (process.eventfunctions[eventfunctionset] && process.eventfunctions[eventfunctionset][filecommand] && process.eventfunctions[eventfunctionset][filecommand].modalexecute) {
+                        process.eventfunctions[eventfunctionset][filecommand].modalexecute(interaction);
+                    }
                 }
             }
             console.log(interactioncommand);
@@ -386,32 +385,10 @@ client.on('interactionCreate', async (interaction) => {
                 configfunc.interactionresponse(interaction); 
             }
             else if (interaction.customId.startsWith("extraconfig_")) {
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.gags && process.extraconfigresponsefunctions.gags[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.gags[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.headwear && process.extraconfigresponsefunctions.headwear[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.headwear[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.mitten && process.extraconfigresponsefunctions.mitten[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.mitten[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.heavy && process.extraconfigresponsefunctions.heavy[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.heavy[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.chastity && process.extraconfigresponsefunctions.chastity[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.chastity[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.chastitybra && process.extraconfigresponsefunctions.chastitybra[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.chastitybra[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.wearable && process.extraconfigresponsefunctions.wearable[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.wearable[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.toys && process.extraconfigresponsefunctions.toys[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.toys[interaction.customId.split("_")[1]](interaction);
-                }
-                if (process.extraconfigresponsefunctions && process.extraconfigresponsefunctions.collar && process.extraconfigresponsefunctions.collar[interaction.customId.split("_")[1]]) {
-                    process.extraconfigresponsefunctions.collar[interaction.customId.split("_")[1]](interaction);
+                let eventfunctionset = interaction.customId.split("_")[1].split("|")[0]
+                let filecommand = interaction.customId.split("_")[1].split("|")[1]
+                if (process.eventfunctions[eventfunctionset] && process.eventfunctions[eventfunctionset][filecommand] && process.eventfunctions[eventfunctionset][filecommand].extraconfigresponse) {
+                    process.eventfunctions[eventfunctionset][filecommand].extraconfigresponse(interaction);
                 }
             }
             else if (interaction.customId.startsWith("buttonboard")) {
@@ -495,5 +472,10 @@ let savefileset = setInterval(() => {
 if (process.webhook) {
     process.webhook = {};
 }
-importFileNames();
+
+//importFileNames();
+
+// new event system
+setUpEventFunctions();
+
 client.login(process.env.DISCORDBOTTOKEN)

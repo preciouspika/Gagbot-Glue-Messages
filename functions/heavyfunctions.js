@@ -18,8 +18,8 @@ const heavytypes = [
 	{ name: "Wolf Queenbinder", value: "armbinder_wolfqueen", tags: ["leather"], denialCoefficient: 3, heavytags: ["arms"] },
     { name: "Reverse-Prayer Binder", value: "armbinder_reversepray", denialCoefficient: 4.5, heavytags: ["arms"] },
     { name: "Rigid Arm Splints", value: "splints_arm", denialCoefficient: 10, heavytags: ["arms"] },
-    { name: "Latex Reverse-Prayer Glove", value: "armbinder_reverseprayer", denialCoefficient: 10, heavytags: ["arms"], tags: ["latex"] },
-    { name: "Leather Reverse-Prayer Glove", value: "armbinder_reverseprayer", denialCoefficient: 10, heavytags: ["arms"], tags: ["leather"] },
+    { name: "Latex Reverse-Prayer Glove", value: "armbinder_reverseprayerlatex", denialCoefficient: 10, heavytags: ["arms"], tags: ["latex"] },
+    { name: "Leather Reverse-Prayer Glove", value: "armbinder_reverseprayerleather", denialCoefficient: 10, heavytags: ["arms"], tags: ["leather"] },
 
 	// Boxbinders
 	{ name: "Latex Boxbinder", value: "boxbinder_latex", tags: ["latex"], denialCoefficient: 2, heavytags: ["arms"] },
@@ -202,6 +202,32 @@ const heavytypes = [
 				if (data.textarray == "texts_heavy") {
 					let guilduser = await interaction.guild.members.cache.get(datatoreturn.textdata.interactionuser.id);
 					datatoreturn.textdata.c3 = `${guilduser.displayName}'s Lap`;
+				}
+
+				return datatoreturn;
+			}
+		},
+	},
+    {
+		name: "Slimegirl's Engulfing Slime",
+		value: "engulfing_slime",
+		denialCoefficient: 3,
+		noself: true,
+		noother: false,
+        tags: ["slime", "living"],
+        heavytags: ["container", "arms", "legs"],
+		namefunction: async (interaction, data) => {
+			if (data.textarray != "texts_heavy" && data.textarray != "texts_struggle") {
+				return data;
+			} // Only affect struggle and heavy.
+			else {
+				// Typescript is going to fucking hate me for what Im about to do.
+				// Guess what though? Typescript ain't my boss
+				// It will *deal* with this. I'd just be putting //@ts-ignore all over this function otherwise.
+				let datatoreturn = Object.assign({}, data);
+				if (data.textarray == "texts_heavy") {
+					let guilduser = await interaction.guild.members.cache.get(datatoreturn.textdata.interactionuser.id);
+					datatoreturn.textdata.c3 = `Engulfed by ${guilduser.displayName}`;
 				}
 
 				return datatoreturn;

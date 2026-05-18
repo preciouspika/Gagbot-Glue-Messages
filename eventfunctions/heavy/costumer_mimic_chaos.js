@@ -30,7 +30,7 @@ function shuffleWearables(inputArray) {
 // Then it will slowly apply a random outfit and set of restraints!
 // Then it will spit them out and apply a new heavy item at the end!
 
-let functiontick = async (userID) => {
+let tick = async (userID, datain) => {
     if (process.userevents == undefined) { process.userevents = {} }
     if (process.userevents[userID] == undefined) { process.userevents[userID] = {} }
     if (process.userevents[userID].costumermimic == undefined) { process.userevents[userID].costumermimic = { stage: 0 } }
@@ -584,4 +584,4 @@ const colourItem = (itemtowear, color) => {
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;

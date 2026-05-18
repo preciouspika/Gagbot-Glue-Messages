@@ -6,7 +6,7 @@ const { getPronouns } = require("../../functions/pronounfunctions.js");
 
 const DISSOLVE_RATE_MS = 1200000;
 
-async function functiontick(userID) {
+async function tick(userID, data) {
     // Init Countdown Variable on First Run if not already present
     if (getUserVar(userID, "confectionaryDissolveTimer") == undefined) {
         setUserVar(userID, "confectionaryDissolveTimer", Date.now() + DISSOLVE_RATE_MS)
@@ -30,4 +30,4 @@ async function functiontick(userID) {
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;

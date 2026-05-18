@@ -12,6 +12,7 @@ const { DOLLMAXPUNISHMENT, textGarbleDOLL } = require(`./../functions/dollfuncti
 const { splitMessage } = require(`./../functions/messagefunctions.js`);
 const { assignHeavy } = require(`./../functions/heavyfunctions.js`);
 const { MessageAST } = require(`./../functions/message_ast.js`);
+const { emitEvent } = require("./eventhandling.js");
 
 // Grab all the command files from the commands directory
 const gagtypes = [];
@@ -427,7 +428,7 @@ const modifymessage = async (msg, threadId, messageonly) => {
 		outtext = outtext.replaceAll(/[]/g, "");
 
         // Iterate through any speech events in process.msgfunctions
-        runMessageEvents({ msg: msg, msgcontent: msg.content, outtext: outtext })
+        emitEvent("msgfunction", msg.author.id, { msg: msg, msgcontent: msg.content, outtext: outtext })
 
         // If we only wanted to edit the message, just return it at this point and do NOT proceed. 
         if (messageonly) { 

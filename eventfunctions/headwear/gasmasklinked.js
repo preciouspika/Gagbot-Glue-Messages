@@ -10,7 +10,7 @@ exports.extraconfig = async (interaction, userid) => {
     let userdescription = new TextDisplayBuilder().setContent(`Choose who to share ${(interaction.user.id == userid) ? "your" : `<@${userid}>'s`} breath with: `);
 
     let userbit = new UserSelectMenuBuilder()
-        .setCustomId(`extraconfig_gasmasklinked_${userid}`)
+        .setCustomId(`extraconfig_headwear|gasmasklinked_${userid}`)
         .setPlaceholder(`Select user...`)
         .setMinValues(0)
         .setMaxValues(1);
@@ -68,7 +68,7 @@ exports.extraconfigresponse = async (interaction, userid) => {
 
 exports.modal = async (interaction, userid) => {
     let modal = new ModalBuilder()
-        .setCustomId(`modalevent_gasmasklinked_${interaction.user.id}_${userid}`)
+        .setCustomId(`modalevent_headwear|gasmasklinked_${interaction.user.id}_${userid}`)
         .setTitle(`Share Arousal`)
     let username = await interaction.guild.members.fetch(userid);
     if (!username) { username = { displayName: "the user" } }

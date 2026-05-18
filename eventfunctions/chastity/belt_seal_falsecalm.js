@@ -2,7 +2,7 @@ const { getUserVar, setUserVar } = require("../../functions/usercontext")
 const { getToys, getBaseToy } = require("../../functions/toyfunctions");
 const { getBotOption } = require("../../functions/configfunctions.js");
 
-let functiontick = async function(userid) {
+let tick = async function(userid, data) {
     //Tickrate Modifier
     tickMod = (getBotOption("bot-timetickrate") / 60000)
 
@@ -20,4 +20,4 @@ let functiontick = async function(userid) {
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;

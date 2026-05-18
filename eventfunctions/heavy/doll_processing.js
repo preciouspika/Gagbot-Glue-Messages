@@ -17,7 +17,7 @@ const { User } = require("discord.js");
 // Then after they are naked, it will announce once that it is applying restraints
 // Then it will slowly apply the restraints!
 // Then it will spit them out and unwear the processing facility 
-let functiontick = async (userID) => {
+let tick = async (userID, datain) => {
     if (process.userevents == undefined) { process.userevents = {} }
     if (process.userevents[userID] == undefined) { process.userevents[userID] = {} }
     if (process.userevents[userID].dollprocessing == undefined) { process.userevents[userID].dollprocessing = { stage: 0 } }  
@@ -225,4 +225,4 @@ let functiontick = async (userID) => {
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;

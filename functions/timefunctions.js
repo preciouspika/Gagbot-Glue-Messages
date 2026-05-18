@@ -235,7 +235,7 @@ const saveFiles = () => {
 // We need to refactor this further sometime into a singular "event" space under process, but this will do for now
 function importFileNames() {
     let functionspaces = [
-        { processvar: "eventfunctions", functionvar: "functiontick" },
+        //{ processvar: "eventfunctions", functionvar: "functiontick" },
         { processvar: "msgfunctions", functionvar: "msgfunction" },
         { processvar: "modalfunctions", functionvar: "modal" },
         { processvar: "modalexecutefunctions", functionvar: "modalexecute" },
@@ -268,7 +268,7 @@ function processTimedEvents() {
 	updateArousalValues();
     updateSharedBreath();
 	processUnlockTimes(process.client);
-	runProcessedEvents();
+    runTickEvents();
     checkGagbotKeys();
 }
 
@@ -297,13 +297,14 @@ function processUnlockTimes(client) {
 	}
 }
 
-function runProcessedEvents() {
+function runTickEvents() {
+    if (process.eventfunctions == undefined) { return }
 	// Gags
 	if (process.gags) {
 		Object.keys(process.gags).forEach((userid) => {
 			getGags(userid).forEach((g) => {
-				if (process.eventfunctions.gags && process.eventfunctions.gags[g.gagtype]) {
-					process.eventfunctions.gags[g.gagtype](userid);
+				if (process.eventfunctions.gags && process.eventfunctions.gags[g.gagtype] && process.eventfunctions.gags[g.gagtype].tick) {
+					process.eventfunctions.gags[g.gagtype].tick(userid);
 				}
 			});
 		});
@@ -312,8 +313,8 @@ function runProcessedEvents() {
 	if (process.headwear) {
 		Object.keys(process.headwear).forEach((userid) => {
 			getHeadwear(userid).forEach((h) => {
-				if (process.eventfunctions.headwear && process.eventfunctions.headwear[h]) {
-					process.eventfunctions.headwear[h](userid);
+				if (process.eventfunctions.headwear && process.eventfunctions.headwear[h] && process.eventfunctions.headwear[h].tick) {
+					process.eventfunctions.headwear[h].tick(userid);
 				}
 			});
 		});
@@ -322,8 +323,8 @@ function runProcessedEvents() {
 	if (process.mitten) {
 		Object.keys(process.mitten).forEach((userid) => {
 			if (getMitten(userid)) {
-				if (process.eventfunctions.mitten && process.eventfunctions.mitten[getMitten(userid).mittenname]) {
-					process.eventfunctions.mitten[getMitten(userid).mittenname](userid);
+				if (process.eventfunctions.mitten && process.eventfunctions.mitten[getMitten(userid).mittenname] && process.eventfunctions.mitten[getMitten(userid).mittenname].tick) {
+					process.eventfunctions.mitten[getMitten(userid).mittenname].tick(userid);
 				}
 			}
 		});
@@ -333,8 +334,8 @@ function runProcessedEvents() {
 		Object.keys(process.heavy).forEach((userid) => {
 			if (getHeavyList(userid).length > 0) {
                 getHeavyList(userid).forEach((h) => {
-                    if (process.eventfunctions.heavy && process.eventfunctions.heavy[h.type]) {
-                        process.eventfunctions.heavy[h.type](userid);
+                    if (process.eventfunctions.heavy && process.eventfunctions.heavy[h.type] && process.eventfunctions.heavy[h.type].tick) {
+                        process.eventfunctions.heavy[h.type].tick(userid);
                     }
                 })
 			}
@@ -344,8 +345,8 @@ function runProcessedEvents() {
 	if (process.chastity) {
 		Object.keys(process.chastity).forEach((userid) => {
 			if (getChastity(userid)) {
-				if (process.eventfunctions.chastity && process.eventfunctions.chastity[getChastity(userid).chastitytype]) {
-					process.eventfunctions.chastity[getChastity(userid).chastitytype](userid);
+				if (process.eventfunctions.chastity && process.eventfunctions.chastity[getChastity(userid).chastitytype] && process.eventfunctions.chastity[getChastity(userid).chastitytype].tick) {
+					process.eventfunctions.chastity[getChastity(userid).chastitytype].tick(userid);
 				}
 			}
 		});
@@ -354,8 +355,8 @@ function runProcessedEvents() {
 	if (process.chastitybra) {
 		Object.keys(process.chastitybra).forEach((userid) => {
 			if (getChastityBra(userid)) {
-				if (process.eventfunctions.chastitybra && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype]) {
-					process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype](userid);
+				if (process.eventfunctions.chastitybra && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype] && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].tick) {
+					process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].tick(userid);
 				}
 			}
 		});
@@ -364,8 +365,8 @@ function runProcessedEvents() {
 	if (process.wearable) {
 		Object.keys(process.wearable).forEach((userid) => {
 			getWearable(userid).forEach((h) => {
-				if (process.eventfunctions.wearable && process.eventfunctions.wearable[h]) {
-					process.eventfunctions.wearable[h](userid);
+				if (process.eventfunctions.wearable && process.eventfunctions.wearable[h] && process.eventfunctions.wearable[h].tick) {
+					process.eventfunctions.wearable[h].tick(userid);
 				}
 			});
 		});
@@ -374,8 +375,8 @@ function runProcessedEvents() {
     if (process.toys) {
 		Object.keys(process.toys).forEach((userid) => {
 			getToys(userid).forEach((h) => {
-				if (process.eventfunctions.toys && process.eventfunctions.toys[h.type]) {
-					process.eventfunctions.toys[h.type](userid);
+				if (process.eventfunctions.toys && process.eventfunctions.toys[h.type] && process.eventfunctions.toys[h.type].tick) {
+					process.eventfunctions.toys[h.type].tick(userid);
 				}
 			});
 		});
@@ -384,13 +385,13 @@ function runProcessedEvents() {
     if (process.collar) {
 		Object.keys(process.collar).forEach((userid) => {
 			if (getCollar(userid)) {
-                if (process.eventfunctions.collar && process.eventfunctions.collar[getCollar(userid).collartype]) {
-					process.eventfunctions.collar[getCollar(userid).collartype](userid);
+                if (process.eventfunctions.collar && process.eventfunctions.collar[getCollar(userid).collartype] && process.eventfunctions.collar[getCollar(userid).collartype].tick) {
+					process.eventfunctions.collar[getCollar(userid).collartype].tick(userid);
 				}
                 if (getCollar(userid).additionalcollars) {
                     getCollar(userid).additionalcollars.forEach((ac) => {
-                        if (process.eventfunctions.collar && process.eventfunctions.collar[ac]) {
-                            process.eventfunctions.collar[ac](userid);
+                        if (process.eventfunctions.collar && process.eventfunctions.collar[ac] && process.eventfunctions.collar[ac].tick) {
+                            process.eventfunctions.collar[ac].tick(userid);
                         }
                     })
                 }

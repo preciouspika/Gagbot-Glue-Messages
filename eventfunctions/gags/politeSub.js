@@ -2,7 +2,7 @@ const { getOption } = require("../../functions/configfunctions")
 const { messageSendChannel } = require("../../functions/messagefunctions")
 const { getUserVar, setUserVar } = require("../../functions/usercontext")
 
-async function functiontick(userID) {
+async function tick(userID, data) {
     // Remind them on the third infraction and reset
     if (getUserVar(userID, "politeSubSilences") > 2) {
         messageSendChannel(`<@${userID}> should speak with titles to people, such as "Miss," "Mxtress," "Sir," "-sama" and the like.`, process.recentmessages[userID])
@@ -16,4 +16,4 @@ async function functiontick(userID) {
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;

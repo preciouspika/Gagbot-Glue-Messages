@@ -9,11 +9,11 @@ function headpatfunction(recipient, headpatter, returnedobject) {
 }
 
 // Update battery
-async function functiontick(userid) {
+async function tick(userid, data) {
     if (getUserVar(userid, "headpatslutgag") && (getUserVar(userid, "headpatslutgag") < Date.now())) {
         setUserVar(userid, "headpatslutgag", undefined);
     }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;
 exports.headpatfunction = headpatfunction;

@@ -11,7 +11,7 @@ const { getChastityName } = require("../../functions/vibefunctions");
 const { getChastityBra } = require("../../functions/vibefunctions");
 const { getChastity } = require("../../functions/vibefunctions");
 
-exports.functiontick = async (userID) => {
+exports.tick = async (userID, data) => {
     try {
         // Cancel until the user has said AT LEAST three things or has waited long enough. 
         if (getUserVar(userID, "struggleCollarMsgs") < 5) { return }

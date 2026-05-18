@@ -5,7 +5,7 @@ const { getUserVar, setUserVar } = require("../../functions/usercontext.js")
 const { getArousal } = require("../../functions/vibefunctions")
 const { calculatecapture } = require("./capture_sphere.js") // reuse the calculation!
 
-let functiontick = async (userID) => {
+let tick = async (userID, datain) => {
     if (process.userevents == undefined) { process.userevents = {} }
     if (process.userevents[userID] == undefined) { process.userevents[userID] = {} }
     if (process.userevents[userID].capturesphere == undefined) { 
@@ -116,5 +116,5 @@ let functiononremove = async (userID) => {
     delete process.userevents[userID].capturesphere;
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;
 exports.functiononremove = functiononremove;

@@ -177,8 +177,8 @@ module.exports = {
 						} else {
 							// Not wearing it!
 							data.noworn = true;
-							if (process.modalfunctions?.headwear && process.modalfunctions.headwear[headwearchoice]) {
-                                await interaction.showModal(await process.modalfunctions.headwear[headwearchoice](interaction, headwearuser.id))
+							if (process.eventfunctions && process.eventfunctions.headwear && process.eventfunctions.headwear[headwearchoice] && process.eventfunctions.headwear[headwearchoice].modal) {
+                                await interaction.showModal(await process.eventfunctions.headwear[headwearchoice].modal(interaction, headwearuser.id))
                                 interaction.followUp(getText(data));
                             }
                             else {
@@ -195,8 +195,8 @@ module.exports = {
                         } else {
                             // Not wearing it!
                             data.noworn = true;
-                            if (process.modalfunctions?.headwear && process.modalfunctions.headwear[headwearchoice]) {
-                                await interaction.showModal(await process.modalfunctions.headwear[headwearchoice](interaction, headwearuser.id))
+                            if (process.eventfunctions && process.eventfunctions.headwear && process.eventfunctions.headwear[headwearchoice] && process.eventfunctions.headwear[headwearchoice].modal) {
+                                await interaction.showModal(await process.eventfunctions.headwear[headwearchoice].modal(interaction, headwearuser.id))
                                 interaction.followUp(getText(data));
                             }
                             else {
@@ -219,8 +219,8 @@ module.exports = {
 								} else {
 									// Not wearing it!
 									data.noworn = true;
-                                    if (process.modalfunctions?.headwear && process.modalfunctions.headwear[headwearchoice]) {
-                                        await interaction.showModal(await process.modalfunctions.headwear[headwearchoice](interaction, headwearuser.id))
+                                    if (process.eventfunctions && process.eventfunctions.headwear && process.eventfunctions.headwear[headwearchoice] && process.eventfunctions.headwear[headwearchoice].modal) {
+                                        await interaction.showModal(await process.eventfunctions.headwear[headwearchoice].modal(interaction, headwearuser.id))
                                         interaction.followUp(getText(data));
                                     }
                                     else {

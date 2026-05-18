@@ -1226,92 +1226,93 @@ async function generateEditMessageModal(messagecontent, messageid, channelid, hu
 *********/
 async function generateExtraConfig(interaction, userid, itemname, force) {
     let interactionoutput = [];
+    if (process.eventfunctions == undefined) { return undefined }
     if (itemname) {
         if (force) {
-            if (process.extraconfigfunctions.gags && process.extraconfigfunctions.gags[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.gags[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.gags && process.eventfunctions.gags[itemname] && process.eventfunctions.gags[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.gags[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.headwear && process.extraconfigfunctions.headwear[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.headwear[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.headwear && process.eventfunctions.headwear[itemname] && process.eventfunctions.headwear[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.headwear[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.mitten && process.extraconfigfunctions.mitten[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.mitten[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.mitten && process.eventfunctions.mitten[itemname] && process.eventfunctions.mitten[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.mitten[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.heavy && process.extraconfigfunctions.heavy[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.heavy[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.heavy && process.eventfunctions.heavy[itemname] && process.eventfunctions.heavy[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.heavy[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.chastity && process.extraconfigfunctions.chastity[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.chastity[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.chastity && process.eventfunctions.chastity[itemname] && process.eventfunctions.chastity[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.chastity[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.chastitybra && process.extraconfigfunctions.chastitybra[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.chastitybra[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.chastitybra && process.eventfunctions.chastitybra[itemname] && process.eventfunctions.chastitybra[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.chastitybra[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.wearable && process.extraconfigfunctions.wearable[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.wearable[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.wearable && process.eventfunctions.wearable[itemname] && process.eventfunctions.wearable[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.wearable[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.toys && process.extraconfigfunctions.toys[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.toys[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.toys && process.eventfunctions.toys[itemname] && process.eventfunctions.toys[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.toys[itemname].extraconfig(interaction, userid, itemname));
             }
-            if (process.extraconfigfunctions.collar && process.extraconfigfunctions.collar[itemname]) {
-                interactionoutput.push(await process.extraconfigfunctions.collar[itemname](interaction, userid, itemname));
+            if (process.eventfunctions.collar && process.eventfunctions.collar[itemname] && process.eventfunctions.collar[itemname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.collar[itemname].extraconfig(interaction, userid, itemname));
             }
         }
         else {
             // Gags
             getGags(userid).forEach(async (g) => {
-                if ((g.gagtype == itemname) && process.extraconfigfunctions.gags && process.extraconfigfunctions.gags[g.gagtype]) {
-                    interactionoutput.push(await process.extraconfigfunctions.gags[g.gagtype](interaction, userid, itemname));
+                if ((g.gagtype == itemname) && process.eventfunctions.gags && process.eventfunctions.gags[g.gagtype] && process.eventfunctions.gags[g.gagtype].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.gags[g.gagtype].extraconfig(interaction, userid, itemname));
                 }
             });
             // Headwear
             getHeadwear(userid).forEach(async (h) => {
                 console.log(itemname)
-                if ((h == itemname) && process.extraconfigfunctions.headwear && process.extraconfigfunctions.headwear[h]) {
-                    interactionoutput.push(await process.extraconfigfunctions.headwear[h](interaction, userid, itemname));
+                if ((h == itemname) && process.eventfunctions.headwear && process.eventfunctions.headwear[h] && process.eventfunctions.headwear[h].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.headwear[h].extraconfig(interaction, userid, itemname));
                 }
             });
             // Mittens
             if (getMitten(userid)) {
-                if ((getMitten(userid).mittenname == itemname) && process.extraconfigfunctions.mitten && process.extraconfigfunctions.mitten[getMitten(userid).mittenname]) {
-                    interactionoutput.push(await process.extraconfigfunctions.mitten[getMitten(userid).mittenname](interaction, userid, itemname));
+                if ((getMitten(userid).mittenname == itemname) && process.eventfunctions.mitten && process.eventfunctions.mitten[getMitten(userid).mittenname] && process.eventfunctions.mitten[getMitten(userid).mittenname].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.mitten[getMitten(userid).mittenname].extraconfig(interaction, userid, itemname));
                 }
             }
             // Heavy Bondage
             if (getHeavyList(userid).length > 0) {
                 getHeavyList(userid).forEach(async (h) => {
-                    if ((h.type == itemname) && process.extraconfigfunctions.heavy && process.extraconfigfunctions.heavy[h.type]) {
-                        interactionoutput.push(await process.extraconfigfunctions.heavy[h.type](interaction, userid, itemname));
+                    if ((h.type == itemname) && process.eventfunctions.heavy && process.eventfunctions.heavy[h.type] && process.eventfunctions.heavy[h.type].extraconfig) {
+                        interactionoutput.push(await process.eventfunctions.heavy[h.type].extraconfig(interaction, userid, itemname));
                     }
                 })
             }
             // Chastity Belts
             if (getChastity(userid)) {
-                if ((getChastity(userid).chastitytype == itemname) && process.extraconfigfunctions.chastity && process.extraconfigfunctions.chastity[getChastity(userid).chastitytype]) {
-                    interactionoutput.push(await process.extraconfigfunctions.chastity[getChastity(userid).chastitytype](interaction, userid, itemname));
+                if ((getChastity(userid).chastitytype == itemname) && process.eventfunctions.chastity && process.eventfunctions.chastity[getChastity(userid).chastitytype] && process.eventfunctions.chastity[getChastity(userid).chastitytype].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.chastity[getChastity(userid).chastitytype].extraconfig(interaction, userid, itemname));
                 }
             }
             // Chastity Bras
             if (getChastityBra(userid)) {
-                if ((getChastityBra(userid).chastitytype == itemname) && process.extraconfigfunctions.chastitybra && process.extraconfigfunctions.chastitybra[getChastityBra(userid).chastitytype]) {
-                    interactionoutput.push(await process.extraconfigfunctions.chastitybra[getChastityBra(userid).chastitytype](interaction, userid, itemname));
+                if ((getChastityBra(userid).chastitytype == itemname) && process.eventfunctions.chastitybra && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype] && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].extraconfig(interaction, userid, itemname));
                 }
             }
             // Wearables
             getWearable(userid).forEach(async (h) => {
-                if ((h == itemname) && process.extraconfigfunctions.wearable && process.extraconfigfunctions.wearable[h]) {
-                    interactionoutput.push(await process.extraconfigfunctions.wearable[h](interaction, userid, itemname));
+                if ((h == itemname) && process.eventfunctions.wearable && process.eventfunctions.wearable[h] && process.eventfunctions.wearable[h].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.wearable[h].extraconfig(interaction, userid, itemname));
                 }
             });
             // Toys
             getToys(userid).forEach(async (h) => {
-                if ((h.type == itemname) && process.extraconfigfunctions.toys && process.extraconfigfunctions.toys[h.type]) {
-                    interactionoutput.push(await process.extraconfigfunctions.toys[h.type](interaction, userid, itemname));
+                if ((h.type == itemname) && process.eventfunctions.toys && process.eventfunctions.toys[h.type] && process.eventfunctions.toys[h.type].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.toys[h.type].extraconfig(interaction, userid, itemname));
                 }
             });
             // Collars
             if (getCollar(userid)) {
-                if ((getCollar(userid).collartype == itemname) && process.extraconfigfunctions.collar && process.extraconfigfunctions.collar[getCollar(userid).collartype]) {
-                    interactionoutput.push(await process.extraconfigfunctions.collar[getCollar(userid).collartype](interaction, userid, itemname));
+                if ((getCollar(userid).collartype == itemname) && process.eventfunctions.collar && process.eventfunctions.collar[getCollar(userid).collartype] && process.eventfunctions.collar[getCollar(userid).collartype]) {
+                    interactionoutput.push(await process.eventfunctions.collar[getCollar(userid).collartype].extraconfig(interaction, userid, itemname));
                 }
             }
         }
@@ -1319,62 +1320,62 @@ async function generateExtraConfig(interaction, userid, itemname, force) {
     else {
         // Gags
         getGags(userid).forEach(async (g) => {
-            if (process.extraconfigfunctions.gags && process.extraconfigfunctions.gags[g.gagtype]) {
-                interactionoutput.push(await process.extraconfigfunctions.gags[g.gagtype](interaction, userid, itemname));
+            if ((g.gagtype == itemname) && process.eventfunctions.gags && process.eventfunctions.gags[g.gagtype] && process.eventfunctions.gags[g.gagtype].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.gags[g.gagtype].extraconfig(interaction, userid, itemname));
             }
         });
         // Headwear
         getHeadwear(userid).forEach(async (h) => {
-            if (process.extraconfigfunctions.headwear && process.extraconfigfunctions.headwear[h]) {
-                interactionoutput.push(await process.extraconfigfunctions.headwear[h](interaction, userid, itemname));
+            console.log(itemname)
+            if ((h == itemname) && process.eventfunctions.headwear && process.eventfunctions.headwear[h] && process.eventfunctions.headwear[h].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.headwear[h].extraconfig(interaction, userid, itemname));
             }
         });
         // Mittens
         if (getMitten(userid)) {
-            if (process.extraconfigfunctions.mitten && process.extraconfigfunctions.mitten[getMitten(userid).mittenname]) {
-                interactionoutput.push(await process.extraconfigfunctions.mitten[getMitten(userid).mittenname](interaction, userid, itemname));
+            if ((getMitten(userid).mittenname == itemname) && process.eventfunctions.mitten && process.eventfunctions.mitten[getMitten(userid).mittenname] && process.eventfunctions.mitten[getMitten(userid).mittenname].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.mitten[getMitten(userid).mittenname].extraconfig(interaction, userid, itemname));
             }
         }
         // Heavy Bondage
         if (getHeavyList(userid).length > 0) {
             getHeavyList(userid).forEach(async (h) => {
-                if (process.extraconfigfunctions.heavy && process.extraconfigfunctions.heavy[h.type]) {
-                    interactionoutput.push(await process.extraconfigfunctions.heavy[h.type](interaction, userid, itemname));
+                if ((h.type == itemname) && process.eventfunctions.heavy && process.eventfunctions.heavy[h.type] && process.eventfunctions.heavy[h.type].extraconfig) {
+                    interactionoutput.push(await process.eventfunctions.heavy[h.type].extraconfig(interaction, userid, itemname));
                 }
             })
         }
         // Chastity Belts
         if (getChastity(userid)) {
-            if (process.extraconfigfunctions.chastity && process.extraconfigfunctions.chastity[getChastity(userid).chastitytype]) {
-                interactionoutput.push(await process.extraconfigfunctions.chastity[getChastity(userid).chastitytype](interaction, userid, itemname));
+            if ((getChastity(userid).chastitytype == itemname) && process.eventfunctions.chastity && process.eventfunctions.chastity[getChastity(userid).chastitytype] && process.eventfunctions.chastity[getChastity(userid).chastitytype].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.chastity[getChastity(userid).chastitytype].extraconfig(interaction, userid, itemname));
             }
         }
         // Chastity Bras
         if (getChastityBra(userid)) {
-            if (process.extraconfigfunctions.chastitybra && process.extraconfigfunctions.chastitybra[getChastityBra(userid).chastitytype]) {
-                interactionoutput.push(await process.extraconfigfunctions.chastitybra[getChastityBra(userid).chastitytype](interaction, userid, itemname));
+            if ((getChastityBra(userid).chastitytype == itemname) && process.eventfunctions.chastitybra && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype] && process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.chastitybra[getChastityBra(userid).chastitytype].extraconfig(interaction, userid, itemname));
             }
         }
         // Wearables
         getWearable(userid).forEach(async (h) => {
-            if (process.extraconfigfunctions.wearable && process.extraconfigfunctions.wearable[h]) {
-                interactionoutput.push(await process.extraconfigfunctions.wearable[h](interaction, userid, itemname));
+            if ((h == itemname) && process.eventfunctions.wearable && process.eventfunctions.wearable[h] && process.eventfunctions.wearable[h].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.wearable[h].extraconfig(interaction, userid, itemname));
             }
         });
         // Toys
         getToys(userid).forEach(async (h) => {
-            if (process.extraconfigfunctions.toys && process.extraconfigfunctions.toys[h.type]) {
-                interactionoutput.push(await process.extraconfigfunctions.toys[h.type](interaction, userid, itemname));
+            if ((h.type == itemname) && process.eventfunctions.toys && process.eventfunctions.toys[h.type] && process.eventfunctions.toys[h.type].extraconfig) {
+                interactionoutput.push(await process.eventfunctions.toys[h.type].extraconfig(interaction, userid, itemname));
             }
         });
         // Collars
         if (getCollar(userid)) {
-            if (process.extraconfigfunctions.collar && process.extraconfigfunctions.collar[getCollar(userid).collartype]) {
-                interactionoutput.push(await process.extraconfigfunctions.collar[getCollar(userid).collartype](interaction, userid, itemname));
+            if ((getCollar(userid).collartype == itemname) && process.eventfunctions.collar && process.eventfunctions.collar[getCollar(userid).collartype] && process.eventfunctions.collar[getCollar(userid).collartype]) {
+                interactionoutput.push(await process.eventfunctions.collar[getCollar(userid).collartype].extraconfig(interaction, userid, itemname));
             }
         }
     }
-    console.log(interactionoutput);
     
     if (interactionoutput.length <= 0) {
         return undefined;

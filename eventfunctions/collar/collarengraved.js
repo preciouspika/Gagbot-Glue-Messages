@@ -4,7 +4,7 @@ const { TextInputBuilder } = require("discord.js");
 
 exports.modal = async (interaction, userid) => {
     let modal = new ModalBuilder()
-        .setCustomId(`modalevent_collarengraved_${interaction.user.id}_${userid}`)
+        .setCustomId(`modalevent_head|collarengraved_${interaction.user.id}_${userid}`)
         .setTitle(`Engraved Name`)
 
     let outLabel = `Enter what your name should be:`

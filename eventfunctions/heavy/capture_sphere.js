@@ -79,7 +79,7 @@ function calculatecapture(userid, ballbonusnum = 1.0) {
     return catches;
 }
 
-let functiontick = async (userID) => {
+let tick = async (userID, datain) => {
     if (process.userevents == undefined) { process.userevents = {} }
     if (process.userevents[userID] == undefined) { process.userevents[userID] = {} }
     if (process.userevents[userID].capturesphere == undefined) { 
@@ -191,5 +191,5 @@ let functiononremove = async (userID) => {
 }
 
 exports.calculatecapture = calculatecapture;
-exports.functiontick = functiontick;
+exports.tick = tick;
 exports.functiononremove = functiononremove;

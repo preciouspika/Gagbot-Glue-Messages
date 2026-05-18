@@ -1083,6 +1083,12 @@ const texts_heavy = {
                         },
                         text: `USER_TAG pulls TARGET_TAG into USER_THEIR lap, holding TARGET_THEM gently but firmly.`,
                     },
+                    {
+                        only: (t) => {
+                            return t.c3.startsWith("Engulfed");
+                        },
+                        text: `USER_TAG creeps towards TARGET_TAG and swallows TARGET_THEM in a pool of slime!`,
+                    },
 					{
                         only: (t) => {
                             return t.c3.includes("Dancer's Pole");
@@ -3265,6 +3271,12 @@ const texts_unheavy = {
                         return t.c2.endsWith("'s Lap");
                     },
                     text: `USER_TAG helps TARGET_TAG off of the warm lap TARGET_THEY TARGET_WERE laying on!`,
+                },
+                {
+                    only: (t) => {
+                        return t.c2.startsWith("Engulfed");
+                    },
+                    text: `USER_TAG pulls TARGET_TAG out of the engulfing slime!`,
                 },
                 {
                     only: (t) => {

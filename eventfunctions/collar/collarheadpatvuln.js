@@ -13,30 +13,22 @@ function headpatfunction(recipient, headpatter, returnedobject) {
     ]
     if (returnedobject && returnedobject.crit && !getUserVar(recipient, "headpatvulntimer")) {
         messageSendChannel(critheadpatmessages[Math.floor(Math.random() * critheadpatmessages.length)], process.recentmessages[recipient])
-        setUserVar(recipient, "headpatvulntimer", Date.now() + 360000)
+        setUserVar(recipient, "headpatvulntimer", Date.now() + 300000)
         if (getCollar(recipient).keyholder_only) {
-            getCollar(recipient).keyholder_only = false;
-            setTimeout(() => {
-                setUserVar(recipient, "headpatvulntimer", undefined);
-                if (getCollar(recipient) && !getCollar(recipient).keyholder_only && getCollar(recipient).collartype == "collarheadpatvuln") {
-                    getCollar(recipient).keyholder_only = true;
-                }
-            }, 300000)
-        }
-        else {
-            setTimeout(() => {
-                setUserVar(recipient, "headpatvulntimer", undefined);
-            }, 300000)
+            getCollar(recipient).headpatvulnerable = (Date.now() + 300000);
         }
     }
 }
 
 // Clear crit cooldown if we somehow crashed. 
-async function functiontick(userid) {
+async function tick(userid, data) {
     if (getUserVar(userid, "headpatvulntimer") && (Date.now() > getUserVar(userid, "headpatvulntimer"))) {
         setUserVar(userid, "headpatvulntimer", undefined);
     }
+    if (getCollar(recipient).headpatvulnerable < Date.now()) {
+        getCollar(recipient).headpatvulnerable = undefined;
+    }
 }
 
-exports.functiontick = functiontick;
+exports.tick = tick;
 exports.headpatfunction = headpatfunction;
