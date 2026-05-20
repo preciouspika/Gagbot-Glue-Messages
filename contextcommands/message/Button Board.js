@@ -1,7 +1,14 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags } = require('discord.js');
 const { getTextGeneric } = require('../../functions/textfunctions');
+const { getHeadwearRestrictions } = require('../../functions/headwearfunctions');
 
-
+function arrayShuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr; 
+}
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
@@ -14,11 +21,19 @@ module.exports = {
                 [ "🍔", "🔑", "🔒", "🔗", "🥽"],
                 [ "👀", "🥺", "💤", "💼", "☕︎" ]
             ]
+            if (!getHeadwearRestrictions(interaction.user.id).canInspect) {
+                buttons = buttons.map((ba) => {
+                    console.log(ba);
+                    return arrayShuffle(ba)
+                })
+                buttons = arrayShuffle(buttons);
+            }
+            console.log(buttons)
             let buttonmap = buttons.map((ba) => {
                 return ba.map((bb) => {
                     return new ButtonBuilder()
                         .setCustomId(`buttonboard_${bb}`)
-                        .setLabel(bb)
+                        .setLabel(!getHeadwearRestrictions(interaction.user.id).canInspect ? "❓" : bb)
                         .setStyle(ButtonStyle.Secondary)
                 })
             })
