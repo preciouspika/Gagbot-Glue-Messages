@@ -19,7 +19,9 @@ module.exports = {
             let buttons = [
                 [ "💢", "❔", "❕", "💕", "✅"],
                 [ "🍔", "🔑", "🔒", "🔗", "🥽"],
-                [ "👀", "🥺", "💤", "💼", "☕︎" ]
+                [ "👀", "🥺", "💤", "💼", "☕︎" ],
+                [ `BOT|${process.emojis.armbinder}`, `BOT|${process.emojis.collar}`, `BOT|${process.emojis.chastity}`, `BOT|${process.emojis.gag}`, `BOT|${process.emojis.wand}` ],
+                [ `BOT|${process.emojis.happymaid}`, `BOT|${process.emojis.yesh}`, `BOT|${process.emojis.tetowoah}`, `BOT|${process.emojis.miku}`, `BOT|${process.emojis.shyumm}` ],
             ]
             if (!getHeadwearRestrictions(interaction.user.id).canInspect) {
                 buttons = buttons.map((ba) => {
@@ -31,10 +33,16 @@ module.exports = {
             console.log(buttons)
             let buttonmap = buttons.map((ba) => {
                 return ba.map((bb) => {
-                    return new ButtonBuilder()
+                    let b = new ButtonBuilder()
                         .setCustomId(`buttonboard_${bb}`)
-                        .setLabel(!getHeadwearRestrictions(interaction.user.id).canInspect ? "❓" : bb)
                         .setStyle(ButtonStyle.Secondary)
+                    if (bb.startsWith('BOT|')) {
+                        b.setEmoji(bb.split("|")[1])
+                    }
+                    else {
+                        b.setLabel(!getHeadwearRestrictions(interaction.user.id).canInspect ? "❓" : bb)
+                    }
+                    return b;
                 })
             })
             let buttoncomponents = [];
@@ -50,6 +58,7 @@ module.exports = {
         interaction.deferUpdate();
         // interaction.message.reference points to the message we evoked the board from!
         let buttonemoji = interaction.customId.split("_")[1]
+        buttonemoji = buttonemoji.replace("BOT|", "")
         let data_in = {
             interactionuser: interaction.user,
             targetuser: interaction.user,
