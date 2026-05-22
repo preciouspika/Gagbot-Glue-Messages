@@ -144,6 +144,14 @@ const configoptions = {
 					helptext: "Pronouns have not been set yet",
 					select_function: (userID) => {
                         setOption(userID, "pronouns", "she");
+                        if (process.pronouns == undefined) {
+                            process.pronouns = {};
+                        }
+                        process.pronouns[userID] = { subject: "she", object: "her", possessive: "hers", possessiveDeterminer: "her", reflexive: "herself", subjectIs: "she's", subjectWill: "she'll" }
+                        if (process.readytosave == undefined) {
+                            process.readytosave = {};
+                        }
+                        process.readytosave.pronouns = true;
                     },
 					value: "notset",
 					style: ButtonStyle.Secondary,
@@ -151,6 +159,59 @@ const configoptions = {
 			],
 			menutype: "choice",
 			default: "notset",
+			disabled: () => {
+				return false;
+			}, // if true, button is greyed out
+		},
+        praiseobject: {
+			name: "Praise Object",
+			desc: "When the bot praises you, what noun should it use?",
+			choices: [
+				{
+					name: "Follow Gender",
+					helptext: "Follow Selected Pronouns/State",
+					select_function: (userID) => { return true },
+					value: "follow",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Girl",
+					helptext: "Good **Girl!**",
+					select_function: (userID) => { return true },
+					value: "girl",
+					style: ButtonStyle.Secondary,
+				},
+				{
+					name: "Boy",
+					helptext: "Good **Boy!**",
+					select_function: (userID) => { return true },
+					value: "boy",
+					style: ButtonStyle.Secondary,
+				},
+                {
+					name: "Toy",
+					helptext: "Good **Toy!**",
+					select_function: (userID) => { return true },
+					value: "toy",
+					style: ButtonStyle.Secondary,
+				},
+                {
+					name: "Doll",
+					helptext: "Good **Doll.**",
+					select_function: (userID) => { return true },
+					value: "notset",
+					style: ButtonStyle.Secondary,
+				},
+                {
+					name: "Drone",
+					helptext: "Good **Drone.**",
+					select_function: (userID) => { return true },
+					value: "toy",
+					style: ButtonStyle.Secondary,
+				},
+			],
+			menutype: "choice",
+			default: "follow",
 			disabled: () => {
 				return false;
 			}, // if true, button is greyed out

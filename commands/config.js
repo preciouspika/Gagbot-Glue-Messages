@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ComponentType, ButtonBuilder, ActionRowBuilder, ButtonStyle, MessageFlags, PermissionsBitField } = require("discord.js");
+const { SlashCommandBuilder, ComponentType, ButtonBuilder, ActionRowBuilder, ButtonStyle, MessageFlags, PermissionsBitField, ApplicationCommandOptionChannelTypesMixin } = require("discord.js");
 const { mittentypes } = require("./../functions/gagfunctions.js");
 const { heavytypes } = require("./../functions/heavyfunctions.js");
 const { getPronouns } = require("./../functions/pronounfunctions.js");
@@ -23,6 +23,8 @@ module.exports = {
 		try {
 			let optionparts = interaction.customId.split("_");
 
+            console.log(optionparts);
+
 			// We changed page, new page!
 			if (optionparts[1] == "menuselector") {
 				interaction.update(await generateConfigModal(interaction, interaction.values[0].split("_")[1], 1));
@@ -44,7 +46,7 @@ module.exports = {
 
 				// After doing so, run the NEW option's select_function.
 				if (typeof configoptions[optionparts[2]][optionparts[4]].choices[newindex].select_function == "function") {
-					configoptions[optionparts[2]][optionparts[4]].choices[newindex].select_function(interaction.user.id);
+					await configoptions[optionparts[2]][optionparts[4]].choices[newindex]["select_function"](interaction.user.id);
 				}
 
 				// Finally, reprompt the user, now with the new choice set.
