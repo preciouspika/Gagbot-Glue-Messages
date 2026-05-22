@@ -14,6 +14,7 @@ const { assignHeavy, getHeavyRestrictions } = require(`./../functions/heavyfunct
 const { MessageAST } = require(`./../functions/message_ast.js`);
 const { emitEvent } = require("./eventhandling.js");
 const { convertPronounsText } = require("./pronounfunctions.js");
+const { getUserVar, setUserVar } = require("./usercontext.js");
 
 // Grab all the command files from the commands directory
 const gagtypes = [];
@@ -622,7 +623,8 @@ async function appendCollarEffects(msg, outtext, msgTreeMods) {
 
     // If they're wearing a sponsorship collar, 30% chance to add a sponsor. 
     if (process.collar && process.collar[msg.author.id] && ((process.collar[msg.author.id].collartype == "sponsorcollar") || (process.collar[msg.author.id].additionalcollars && process.collar[msg.author.id].additionalcollars.includes("sponsorcollar")))) {
-        if (Math.random() > 0.70) {
+        let randomchance = 0.95 - (!isNaN(getUserVar(msg.author.id, "sponsorcollartrigger")) ? (((Date.now() - getUserVar(msg.author.id, "sponsorcollartrigger")) / 60000) * 0.015) : 0.5) // 5% + 1.5% per minute, uncapped. +50% chance if this is their first time ever being sponsored
+        if ((Math.random() > randomchance) && (!isNaN(getUserVar(msg.author.id, "sponsorcollartrigger")) ? (((Date.now() - getUserVar(msg.author.id, "sponsorcollartrigger")) / 60000) > 1.0) : true)) { // Higher than proc rate AND at least a minute since last proc.
             let sponsors = [
                 `FANG (Fox Asset and National Growth) - Asset Management since 2008!`,
                 `FEC (Fox Exchange Commission) - Your Trusted Stock Broker since 1929!`,
@@ -670,6 +672,7 @@ async function appendCollarEffects(msg, outtext, msgTreeMods) {
                 `Sponsorship Collar - Put me on. Advertise our corporate overlords like a good little subbie drone you are!`
             ]
             appendmessages.push(`-# Sponsored by ${sponsors[Math.floor(sponsors.length * Math.random())]}`);
+            setUserVar(msg.author.id, "sponsorcollartrigger", Date.now());
         }
     }
 
