@@ -102,6 +102,8 @@ const heavytypes = [
 	{ name: "Hardlight Cuffs (hogtie)", value: "hardlight_hogtie", denialCoefficient: 3, heavytags: ["arms", "legs"] },
 	{ name: "Hardlight Fetters", value: "hardlight_fetters", denialCoefficient: 1.5, heavytags: ["legs"] },
 	{ name: "Hardlight Cuffs (strict)", value: "hardlight_strict", denialCoefficient: 4.5, heavytags: ["arms"] },
+    { name: "Spreader Bar (Legs)", value: "spreaderbar_legs", denialCoefficient: 2.0, heavytags: ["legs"] },
+    { name: "Spreader Bar (Arms)", value: "spreaderbar_arms", denialCoefficient: 5.0, heavytags: ["arms"] },
 
 	// Rope Restraints
 	{ name: "Hogtie", value: "rope_hogtie", denialCoefficient: 3, heavytags: ["arms", "legs"] },
