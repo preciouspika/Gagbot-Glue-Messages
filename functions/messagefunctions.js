@@ -354,19 +354,33 @@ function getAlternateName(user) {
  * Get the combined profile picture of the user, if their original one matches the one we have on file
  * 
  * (guild member) member - The Guild Member object sending the message
+ * (mods) mods - Additional images to overlay in reverse order (not implemented yet)
  **********/
 async function getPFP(member, mods = []) {
-    console.log(member.displayAvatarURL());
-    console.log(member.displayAvatarDecorationURL());
+    let imagelist = mods.slice(0);
+    if (member.displayAvatarDecorationURL()) {
+        imagelist.push(member.displayAvatarDecorationURL())
+    }
+    imagelist.push(member.displayAvatarURL())
+
     if (process.memberavatars == undefined) { process.memberavatars = {} }
-    if (process.memberavatars[member.id] && (process.memberavatars[member.id].avatarURL == member.displayAvatarURL()) && (process.memberavatars[member.id].decorationURL == member.displayAvatarDecorationURL())) {
-        if (process.memberavatars[member.id].link) {
-            return process.memberavatars[member.id].link;
+    if (process.memberavatars[member.id]) {
+        if (process.memberavatars[member.id].avatarURL == member.displayAvatarURL()) {
+            if (process.memberavatars[member.id].decorationURL == member.displayAvatarDecorationURL()) {
+                let modifiers = Object.keys(mods).join("")
+                if (process.memberavatars[member.id][`${mods}link`]) {
+                    return process.memberavatars[member.id][`${mods}link`]
+                }
+            }
         }
     }
 
-    // Fetch the Avatar URL
+    if ((mods.length == 0) && !member.displayAvatarDecorationURL()) { return member.displayAvatarURL() } // No decorations, no image enhancements
+
     try {
+        let modifiers = Object.keys(mods).join("")
+        console.log(`Creating image ${mods}link for ${member.displayName}`)
+
         // Get avatar decoration image
         let imgfetch = await fetch(member.displayAvatarDecorationURL())
         if (!imgfetch.ok) { console.log(`Error fetching Decoration URL: ${member.displayAvatarDecorationURL()}`)}
@@ -392,9 +406,6 @@ async function getPFP(member, mods = []) {
                 width: 256
             })
             .toBuffer({ resolveWithObject: true})
-
-        console.log(decorationimage)
-        console.log(avatarimage)
 
         // Put them all together!
         let almostfinalimage = await sharp({

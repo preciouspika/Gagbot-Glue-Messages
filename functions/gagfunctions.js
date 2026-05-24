@@ -761,8 +761,9 @@ async function sendTheMessage(msg, outtext, dollIDDisplay, threadID, dollProtoco
 				);
 			}
 			Promise.all(promisearr).then(async (v) => {
+                let avatar = await getPFP(msg.member);
 				// Send it!
-				messageSendImg(msg, outtext, msg.member.displayAvatarURL(), dollIDDisplay ? dollIDDisplay : msg.member.displayName, threadID, attachments, modified, isreply, replyobject).then((modifiedmsg) => {
+				messageSendImg(msg, outtext, avatar ?? msg.member.displayAvatarURL(), dollIDDisplay ? dollIDDisplay : msg.member.displayName, threadID, attachments, modified, isreply, replyobject).then((modifiedmsg) => {
                     // Cleanup after sending
 					msg.delete().then(() => {
 						attachments.forEach((attach) => {
