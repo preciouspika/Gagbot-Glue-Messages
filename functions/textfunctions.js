@@ -1927,9 +1927,9 @@ const texts_struggle = {
         `USER_TAG starts planning tactics in USER_THEIR head on how to take down the elusive VAR_C menace. The 2nd one has shown up in the most unexpected places!`,
         `USER_TAG quietly ponders the science behind headpatting all of the cute people in the dungeon.`,
         `USER_TAG prods a controller USER_THEY had in USER_THEIR pocket. Which kind of controller? Clearly the best one. Simply ask, where is the X button?`,
-        `USER_TAG pulls out a leash and giggles as USER_THEY fidget with the clicky bit. Who will the leash get secured to?`,
+        `USER_TAG pulls out a leash and giggles as USER_THEY fidgetUSER_S with the clicky bit. Who will the leash get secured to?`,
         `USER_TAG flops on a nearby chair. The chair is comfy. The chair offers so much softness... There is only... the chair...`,
-        `USER_TAG's eyes narrow as USER_THEY spotUSER_S **The Book**. USER_THEIR_CAP thoughts race as USER_THEY strategize the best method with which to dispatch the creature.`,
+        `USER_TAG's eyes narrow as USER_THEY spotUSER_S **The Book**. USER_THEIR_CAP thoughts race as USER_THEY strategizeUSER_S the best method with which to dispatch the creature.`,
         `USER_TAG says a silent prayer to the Goddess of RAM, hoping for the prices to return to normal.`,
         `USER_TAG hums a song to USER_THEMSELF. What is the song? Well, this time, everyone should know it!`,
         `Surely it's not the silliest idea to lock USER_THEMSELF up and then mail the key so it arrives a week later. USER_TAG would never do something so silly like that!`,
@@ -1938,7 +1938,7 @@ const texts_struggle = {
         `USER_TAG wants a vanilla flavored cookie to munch on!`,
         `USER_TAG stretches as USER_THEY considerUSER_S USER_THEIR bedtime tonight and the exact technique with which USER_THEY will brush USER_THEIR teeth.`,
         `"There are so many struggle texts," USER_TAG thinks. USER_THEY_CAP can't help but wonder just how long it took to write all these...`,
-        `USER_TAG jumps onto a green pipe and with enough imagination, USER_THEY sink down into it, never to be seen again until a man in a red hat finds USER_THEM.`,
+        `USER_TAG jumps onto a green pipe and with enough imagination, USER_THEY sinkUSER_S down into it, never to be seen again until a man in a red hat finds USER_THEM.`,
         `USER_TAG fusses with a triangular shaped piece of cheese, separating it into three smaller triangles, and then labelling them 'Wisdom,' 'Power' and 'Courage!'`,
         `Conjuring a musical instrument of some sort, USER_TAG starts practicing a tune silently to USER_THEMSELF. Look at USER_THEM improve!`,
         `Surely there's a limit to just how many pieces of clothing, gags and heavy bondage one can put on USER_TAG. Will it ever be discovered?`,
@@ -4629,7 +4629,7 @@ const texts_wear = {
 					only: (t) => {
 						return t.c2.includes("Kissmark") && getWearable(t.interactionuser.id).filter((f) => f.includes("lipstick")).length > 0;
 					},
-					text: `USER_TAG kisses TARGET_TAG, leaving a VAR_C2 on USER_THEIR cheek!`,
+					text: `USER_TAG kisses TARGET_TAG, leaving a VAR_C2 on TARGET_THEIR cheek!`,
 				},
 				{
 					only: (t) => {
