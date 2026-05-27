@@ -210,7 +210,7 @@ async function handleTouchEvent(user, target, type, noprompt = false) {
             res(true) 
             return;
         } // We're okay with touching ourselves.
-        if (getOption(target.id, `allowedheadpats`) && getOption(target.id, `allowedheadpats`).includes(user.id)) {
+        if (getOption(target.id, `allowed${type}`) && getOption(target.id, `allowed${type}`).includes(user.id)) {
             // This is on the target's approved headpat list. 
             res(true)
             return;

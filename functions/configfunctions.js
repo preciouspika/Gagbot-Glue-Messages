@@ -71,6 +71,39 @@ const configoptions = {
 				return false;
 			},
 		},
+        preferredtitle: {
+			name: "Preferred Titles",
+			desc: "Set preferred titles to display when others inspect you",
+			descmodal: "Write the exact titles you wish to be addressed by:",
+			choices: [
+				{
+					name: "Set Titles",
+					helptext: "Displaying as **(Preferred Title: ",
+					helptextnone: "*No Preferred Titles Set*",
+					select_function: (userID) => {
+						return false;
+					},
+					value: "None",
+					style: ButtonStyle.Primary,
+				},
+			],
+			customtext: (userID) => {
+				return `Miss, Lady, Sir, Master`;
+			},
+			placeholder: (userID) => {
+				return `Miss, Lady, Sir, Master`;
+			},
+            textvaluedisplay: (val) => {
+                return `${val})**`;
+            },
+			menutype: "choice_textentry",
+			default: (userID) => {
+				return ``;
+			},
+			disabled: () => {
+				return false;
+			},
+		},
         pronouns: {
 			name: "Pronouns",
 			desc: "Which pronouns should the bot use when referring to you?",
@@ -295,7 +328,7 @@ const configoptions = {
 				return false;
 			},
 		},
-        receiveshocks: {
+        receiveshock: {
 			name: "Recieve Shocks",
 			desc: "Who is allowed to trigger remote shocks on you?",
 			choices: [
@@ -334,7 +367,7 @@ const configoptions = {
 				return false;
 			}, // if true, button is greyed out
 		},
-        allowedshocks: {
+        allowedshock: {
 			name: "Shock Exempt Users",
 			desc: "Set users who can always shock you while wearing a remote controlled shock collar, regardless of the setting above",
 			descmodal: "Select up to 25 users which can shock you at all times:",

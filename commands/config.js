@@ -343,6 +343,23 @@ module.exports = {
 				delete process.recentinteraction[interaction.user.id];
 			}
 		}
+        if (optionparts[3] == "preferredtitle") {
+            choiceinput = interaction.fields.getTextInputValue("choiceinput");
+            if (choiceinput && choiceinput.length > 0) {
+                setOption(interaction.user.id, optionparts[3], choiceinput);
+                await interaction.reply({ content: `Updated your preferred titles to ${choiceinput}`, flags: MessageFlags.Ephemeral });
+            }
+            else {
+                setOption(interaction.user.id, optionparts[3], ``);
+                await interaction.reply({ content: `Cleared Preferred Titles`, flags: MessageFlags.Ephemeral });
+            }
+			if (process.recentinteraction) {
+				if (process.recentinteraction[interaction.user.id]?.timestamp + 895000 > performance.now()) {
+					await process.recentinteraction[interaction.user.id].interaction.editReply(await generateConfigModal(process.recentinteraction[interaction.user.id].interaction, optionparts[2], optionparts[4]));
+				}
+				delete process.recentinteraction[interaction.user.id];
+			}
+		}
         if (optionparts[3] == "allowedheadpats") {
             choiceinput = interaction.fields.getSelectedUsers("choiceinput");
             let choiceusers = Array.from(choiceinput) ?? [];
