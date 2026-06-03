@@ -3068,6 +3068,44 @@ const configoptions = {
 				return false;
 			},
 		},
+        "bot-allowfumbles": {
+			name: "Allow Fumbling",
+			desc: "Should the bot allow users to fumble their keys?",
+			choices: [
+				{
+					name: "Disabled",
+					helptext: "*Users will not be able to fumble their keys*",
+					select_function: (userID) => {
+                        // Purge all fumbled keys
+						let processvars = ["collar", "chastity", "chastitybra"];
+                        processvars.forEach((pv) => {
+                            if (process[pv] == undefined) { process[pv] = {} }
+                            Object.entries(process[pv]).forEach((en) => {
+                                if (en[1]?.fumbled) {
+                                    delete en[1].fumbled;
+                                }
+                            })
+                        })
+					}, // We will need to have this update commands
+					value: "Disabled",
+					style: ButtonStyle.Danger,
+				},
+				{
+					name: "Enabled",
+					helptext: "✔️ Users can fumble keys",
+					select_function: (userID) => {
+						return false;
+					}, // We will need to have this update commands
+					value: "Enabled",
+					style: ButtonStyle.Success,
+				},
+			],
+			menutype: "choice_bot",
+			default: "Disabled",
+			disabled: () => {
+				return false;
+			},
+		},
 	},
 };
 

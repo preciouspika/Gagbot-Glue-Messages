@@ -863,12 +863,21 @@ async function inspectModal(userID, inspectuserIDin, menu, page) {
             if (collarkeyaccess == 2) {
                 collartimelockedtext = "Timelocked (Sealed)";
             }
+            let addlcollartext = ``;
+            if (getCollar(inspectuserID) && getCollar(inspectuserID).additionalcollars) {
+                addlcollartext = `\n-# ‎   |--- Additional Effects: `
+                getCollar(inspectuserID).additionalcollars.forEach((ac) => {
+                    addlcollartext = `${addlcollartext}**${getCollarName(undefined, ac)}**, `
+                })
+                addlcollartext = addlcollartext.slice(0,-2);
+            }
             wearingtext = `${wearingtext}\n${process.emojis.collar} ${(getCollar(inspectuserID)?.collartype === "handcuffamulet") ? "Neck Ornament" : "Collar"}: **${collarname}**`
+            wearingtext = `${wearingtext}${addlcollartext}`;
             if (!headwearrestrictions.canInspect) {
                 wearingtext = `${wearingtext}\n-# ‎   ⤷ ${collarlockemoji} **Blind!**`
             }
             // Lost keys from fumble
-            if (getCollar(inspectuserID)?.fumbled) {
+            else if (getCollar(inspectuserID)?.fumbled) {
                 wearingtext = `${wearingtext}\n-# ‎   ⤷ ${collarlockemoji} **Keys are Missing!**`
             }
             else if (getCollarTimelock(inspectuserID)) {
@@ -1036,7 +1045,15 @@ async function inspectModal(userID, inspectuserIDin, menu, page) {
             if (collarkeyaccess == 2) {
                 collartimelockedtext = "Timelocked (Sealed)";
             }
+            if (getCollar(inspectuserID) && getCollar(inspectuserID).additionalcollars) {
+                addlcollartext = `\n-# ‎   |--- Additional Effects: `
+                getCollar(inspectuserID).additionalcollars.forEach((ac) => {
+                    addlcollartext = `${addlcollartext}**${getCollarName(undefined, ac)}**, `
+                })
+                addlcollartext = addlcollartext.slice(0,-2);
+            }
             keyedrestraints = `${keyedrestraints}\n\n${process.emojis.collar} ${(getCollar(inspectuserID)?.collartype === "handcuffamulet") ? "Neck Ornament" : "Collar"}: **${collarname}**`
+            keyedrestraints = `${keyedrestraints}${addlcollartext}`;
             if (!headwearrestrictions.canInspect) {
                 keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${collarlockemoji} **Blind!**`
             }

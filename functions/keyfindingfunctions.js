@@ -5,7 +5,7 @@ const { getMitten } = require("./gagfunctions");
 const fs = require("fs");
 const { getUserVar, setUserVar } = require("./usercontext");
 const { getHeavy } = require("./heavyfunctions");
-const { config, getOption } = require("./configfunctions");
+const { config, getOption, getBotOption } = require("./configfunctions");
 const { findChastityBraKey } = require("./vibefunctions");
 const { messageSendChannel } = require("./messagefunctions.js");
 const { PermissionsBitField } = require("discord.js");
@@ -23,8 +23,10 @@ function rollKeyFumble(keyholder, locked) {
 	if (process.keyfumbling == undefined) {
 		process.keyfumbling = {};
 	}
-    // Disabled key fumbling, just don't.
-    return 0;
+    if (getBotOption("bot-allowfumbles") == "Disabled") {
+        // Disabled key fumbling, just don't.
+        return 0;
+    }
     
 	// get the initial fumble chance
 	let fumbleChance = getFumbleChance(keyholder, locked);
@@ -104,70 +106,61 @@ function getFumbleChance(keyholder, locked) {
 }
 
 async function handleKeyFinding(message) {
+    // The new method will only permit finding keys which the original owner currently owns.
+    // That is, you MUST be the primary keyholder for the fumbled key. 
     let processvars = ["collar", "chastity", "chastitybra"];
     processvars.forEach((pv) => {
-        if (process[pv] == undefined) { process[pv] = {}}
+        if (process[pv] == undefined) { process[pv] = {} }
         Object.entries(process[pv]).forEach(async (en) => {
             try {
                 if (en[1]?.fumbled) {
-                    if (Math.random() < (Math.max(Math.min(message.content.length * 0.0005, 0.2), 0.01))) {
-                        // Key was found! Lets make sure the sender AND the user can view the channel.
-                        // Implicitly, the sender should be able to lol
+                    if ((en[1].keyholder == message.member.id) && (Math.random() < (Math.max(Math.min(message.content.length * 0.0005, 0.2), 0.01)))) {
                         let weareruser = await message.guild.members.fetch(en[0]);
-                        if (message.channel.permissionsFor(weareruser).has(PermissionsBitField.Flags.ViewChannel)) {
-                            // Wearer IS able to view this channel! Both people should be able to see this channel then.
-                            // Determine which string sets to use, starting with other or self.
-                            let finderpart = "other";
-                            if (weareruser.id == message.member.id) {
-                                finderpart = "self";
-                            }
-                            // Now an append if they're in mittens or heavy bondage
-                            let extrafindkeypart = "";
-                            let chance = 1.0
-                            if (getMitten(message.member.id)) {
-                                chance = 0.5;
-                                extrafindkeypart = "_mitten"
-                            }
-                            if (getHeavy(message.member.id)) {
-                                chance = 0.0;
-                                extrafindkeypart = "_heavy"
-                            }
-                            // Blind people cannot see.
-                            if (!getHeadwearRestrictions(message.member.id).canInspect) {
-                                chance = Math.min(chance, 0.25)
-                            }
-                            let data = {
-                                interactionuser: message.member,
-                                targetuser: weareruser
-                            }
-                            if ((pv == "chastity") || (pv == "chastitybra")) {
-                                let def = (pv == "chastity") ? "belt" : "bra"
-                                data.c1 = getBaseChastity(en[1].chastitytype ?? `${def}_silver`).name
-                            }
-                            else if (pv == "collar") {
-                                data.c1 = getBaseCollar(en[1].collartype ?? `collar_leather`).name
-                            }
-                            if (Math.random() < chance) {
-                                // Successfully found the key!
-                                messageSendChannel(getTextGeneric(`find_key_${finderpart}${extrafindkeypart}`, data), message.channel.id)
-                                // Destroy cloned keyholders if the keyholder is new!
-                                if (message.member.id != process[pv][en[0]].keyholder) {
-                                    process[pv][en[0]].clonedKeyholders = [];
-                                }
-                                // Assign the new keyholder and then delete the fumbled date. 
-                                process[pv][en[0]].keyholder = message.member.id;
-                                delete process[pv][en[0]].fumbled;
-                            }
-                            else {
-                                // Fumbled finding the key lol
-                                messageSendChannel(getTextGeneric(`find_keyfail_${finderpart}${extrafindkeypart}`, data), message.channel.id)
-                            }
+                        let finderpart = "other";
+                        if (weareruser.id == message.member.id) {
+                            finderpart = "self";
+                        }
+                        // Now an append if they're in mittens or heavy bondage
+                        let extrafindkeypart = "";
+                        let chance = 1.0
+                        if (getMitten(message.member.id)) {
+                            chance = 0.5;
+                            extrafindkeypart = "_mitten"
+                        }
+                        if (getHeavy(message.member.id)) {
+                            chance = 0.0;
+                            extrafindkeypart = "_heavy"
+                        }
+                        // Blind people cannot see.
+                        if (!getHeadwearRestrictions(message.member.id).canInspect) {
+                            chance = Math.min(chance, 0.25)
+                        }
+                        let data = {
+                            interactionuser: message.member,
+                            targetuser: weareruser
+                        }
+                        if ((pv == "chastity") || (pv == "chastitybra")) {
+                            let def = (pv == "chastity") ? "belt" : "bra"
+                            data.c1 = getBaseChastity(en[1].chastitytype ?? `${def}_silver`).name
+                        }
+                        else if (pv == "collar") {
+                            data.c1 = getBaseCollar(en[1].collartype ?? `collar_leather`).name
+                        }
+                        if (Math.random() < chance) {
+                            // Successfully found the key!
+                            messageSendChannel(getTextGeneric(`find_key_${finderpart}${extrafindkeypart}`, data), message.channel.id)
+                            // Delete the Fumbled date.
+                            delete process[pv][en[0]].fumbled;
+                        }
+                        else {
+                            // Fumbled finding the key lol
+                            messageSendChannel(getTextGeneric(`find_keyfail_${finderpart}${extrafindkeypart}`, data), message.channel.id)
                         }
                     }
                 }
             }
             catch (err) {
-                logConsole(`handleKeyFinding: ${err}`, 4);
+                console.log(err)
             }
         })
     })
@@ -189,7 +182,7 @@ function discardKey(userid, keyholderid, device) {
     if (process[processvar][userid]) {
         if (process[processvar][userid].keyholder == keyholderid) {
             // Lost primary keys
-            process[processvar][userid].fumbled = Date.now(); // We might be able to track time with this?
+            process[processvar][userid].fumbled = Date.now();
             typelocked = "keyholder";
         }
         else if (process[processvar][userid].clonedKeyholders.includes(keyholderid)) {
