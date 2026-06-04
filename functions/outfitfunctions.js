@@ -806,10 +806,10 @@ async function inspectModal(userID, inspectuserIDin, menu, page) {
             // Lost keys from fumble
             else if (getChastity(inspectuserID)?.fumbled) {
                 if (getChastity(inspectuserID)?.temporarykeyholder) {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${chastitylockemoji} **Temporarily held by <@${getChastity(inspectuserID)?.temporarykeyholder}>!**`
+                    wearingtext = `${keyedrestraints}\n-# ‎   ⤷ ${chastitylockemoji} **Temporarily held by <@${getChastity(inspectuserID)?.temporarykeyholder}>!**`
                 }
                 else {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${chastitylockemoji} **Keys are Missing!**`
+                    wearingtext = `${keyedrestraints}\n-# ‎   ⤷ ${chastitylockemoji} **Keys are Missing!**`
                 }
             }
             else if (getChastityTimelock(inspectuserID)) {
@@ -843,10 +843,10 @@ async function inspectModal(userID, inspectuserIDin, menu, page) {
             // Lost keys from fumble
             else if (getChastityBra(inspectuserID)?.fumbled) {
                 if (getChastityBra(inspectuserID)?.temporarykeyholder) {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${chastitybralockemoji} **Temporarily held by <@${getChastityBra(inspectuserID)?.temporarykeyholder}>!**`
+                    wearingtext = `${keyedrestraints}\n-# ‎   ⤷ ${chastitybralockemoji} **Temporarily held by <@${getChastityBra(inspectuserID)?.temporarykeyholder}>!**`
                 }
                 else {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${chastitybralockemoji} **Keys are Missing!**`
+                    wearingtext = `${keyedrestraints}\n-# ‎   ⤷ ${chastitybralockemoji} **Keys are Missing!**`
                 }
             }
             else if (getChastityBraTimelock(inspectuserID)) {
@@ -889,10 +889,10 @@ async function inspectModal(userID, inspectuserIDin, menu, page) {
             // Lost keys from fumble
             else if (getCollar(inspectuserID)?.fumbled) {
                 if (getCollar(inspectuserID)?.temporarykeyholder) {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${collarlockemoji} **Temporarily held by <@${getCollar(inspectuserID)?.temporarykeyholder}>!**`
+                    wearingtext = `${wearingtext}\n-# ‎   ⤷ ${collarlockemoji} **Temporarily held by <@${getCollar(inspectuserID)?.temporarykeyholder}>!**`
                 }
                 else {
-                    keyedrestraints = `${keyedrestraints}\n-# ‎   ⤷ ${collarlockemoji} **Keys are Missing!**`
+                    wearingtext = `${wearingtext}\n-# ‎   ⤷ ${collarlockemoji} **Keys are Missing!**`
                 }
             }
             else if (getCollarTimelock(inspectuserID)) {
