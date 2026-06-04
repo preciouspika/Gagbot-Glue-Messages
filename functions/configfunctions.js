@@ -1330,7 +1330,12 @@ const configoptions = {
                     value: 259200000,
                     style: ButtonStyle.Danger
                 },
-            ]
+            ],
+            menutype: "choice",
+			default: 600000,
+			disabled: (userID) => {
+				return false;
+			}, // if true, button is greyed out
         },
 		revokeconsent: {
 			name: "Revoke Consent",
