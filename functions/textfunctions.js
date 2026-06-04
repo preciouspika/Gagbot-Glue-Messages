@@ -1339,7 +1339,7 @@ const texts_key = {
                     required: (t) => {
                         return !getHeadwearRestrictions(t.targetuser.id).canInspect;
                     },
-                    text: `USER_TAG taunts TARGET_TAG with the key for a moment, dangling it in front of TARGET_THEIR eyes before flinging it away.`,
+                    text: `USER_TAG taunts TARGET_TAG with TARGET_THEIR key for a moment, dangling it in front of TARGET_THEIR eyes before flinging it away.`,
                 }
             ],
             none: [

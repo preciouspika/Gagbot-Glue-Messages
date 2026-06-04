@@ -80,12 +80,19 @@ module.exports = {
                 )
                 .addUserOption((opt) => opt.setName("wearer").setDescription("Whose collar to add additional effects to?"))
                 .addStringOption((opt) => opt.setName("collareffect").setDescription("Which collar effect to add?").setAutocomplete(true)),
+        )
+        .addSubcommand((subcommand) => 
+            subcommand
+                .setName("discard")
+                .setDescription("Intentionally lose someone's keys...")
+                .addUserOption((opt) => opt.setName("wearer").setDescription(`Whose restraint to "lose" the key for?`))
+				.addStringOption((opt) => opt.setName("restraint").setDescription(`Which restraint of theirs to "lose" the key?`).setAutocomplete(true))
         ),
 	async autoComplete(interaction) {
 		const focusedValue = interaction.options.getFocused();
 		let subcommand = interaction.options.getSubcommand();
 		try {
-			if (subcommand == "clone" || subcommand == "give") {
+			if (subcommand == "clone" || subcommand == "give" || subcommand == "discard") {
 				// We want to return ONLY options that the user COULD clone a key for
 				// So if they own a collar key, it only gives "Collar"
 				let chosenuserid = interaction.options.get("wearer")?.value ?? interaction.user.id; // Note we can only retrieve the user ID here!
@@ -1093,6 +1100,82 @@ module.exports = {
                         }
                     }
                 }
+            }
+            if (subcommand == "discard") {
+				let wearertodiscard = interaction.options.getUser("wearer") ?? interaction.user;
+				let chosenrestrainttoclone = interaction.options.getString("restraint");
+
+				// We're missing info, back to the start!
+				if (!wearertodiscard || !chosenrestrainttoclone) {
+					interaction.reply({ content: `Something went wrong. The command was parsed as:\nDiscard ${wearertodiscard}'s key for ${chosenrestrainttoclone}!`, flags: MessageFlags.Ephemeral });
+					return;
+				}
+
+				// Check if the interaction user has access to discard the key for target restraint.
+				let candiscard = false;
+				if (chosenrestrainttoclone == "collar" && getCollar(wearertodiscard.id) && canAccessCollar(wearertodiscard.id, interaction.user.id, undefined, true).access) {
+                    candiscard = true
+				}
+				if (chosenrestrainttoclone == "chastitybelt" && getChastity(wearertodiscard.id) && canAccessChastity(wearertodiscard.id, interaction.user.id, undefined, true).access) {
+					candiscard = true
+				}
+				if (chosenrestrainttoclone == "chastitybra" && getChastityBra(wearertodiscard.id) && canAccessChastityBra(wearertodiscard.id, interaction.user.id, undefined, true).access) {
+					candiscard = true
+				}
+				if (!candiscard) {
+                    if (wearertodiscard.id == interaction.user.id) {
+                        interaction.reply({ content: `You do not have the primary keys for your restraint to lose.`, flags: MessageFlags.Ephemeral });
+                    }
+                    else {
+                        interaction.reply({ content: `You do not have the primary keys for ${wearertodiscard}'s restraint to lose.`, flags: MessageFlags.Ephemeral });
+                    }
+					return;
+				}
+
+				// If the wearer has disabled key loss from fumbling, tell them to leave.
+				if (getOption(wearertodiscard.id, "keyloss") == "disabled") {
+                    if (wearertodiscard.id === interaction.user.id) {
+                        interaction.reply({ content: `You've disabled key loss from fumbling.`, flags: MessageFlags.Ephemeral });
+					    return;
+                    }
+                    else {
+                        interaction.reply({ content: `${wearertodiscard} has disabled key loss from fumbling.`, flags: MessageFlags.Ephemeral });
+					    return;
+                    }
+				} 
+
+                let data = { 
+                    textarray: "texts_key", 
+                    textdata: {
+                        interactionuser: interaction.user,
+                        targetuser: wearertodiscard,
+                    },
+                };
+                data.discardkey = true;
+
+                if (wearertodiscard.id == interaction.user.id) {
+                    data.self = true;
+                }
+                else {
+                    data.other = true;
+                }
+                data.keyholder = true;
+
+                if ((chosenrestrainttoclone == "chastitybelt")) {
+                    data.textdata.c1 = getBaseChastity(getChastity(wearertodiscard.id)?.chastitytype ?? `belt_silver`).name
+                    discardKey(wearertodiscard.id, interaction.user.id, "chastity belt");
+                }
+                else if ((chosenrestrainttoclone == "chastitybra")) {
+                    data.textdata.c1 = getBaseChastity(getChastityBra(wearertodiscard.id)?.chastitytype ?? `bra_silver`).name
+                    discardKey(wearertodiscard.id, interaction.user.id, "chastity bra");
+                }
+                else if (chosenrestrainttoclone == "collar") {
+                    data.textdata.c1 = getBaseCollar(getCollar(wearertodiscard.id)?.collartype ?? `collar_leather`).name
+                    discardKey(wearertodiscard.id, interaction.user.id, "collar");
+                }
+
+                interaction.reply(getText(data));
+
             }
 		} catch (err) {
 			console.log(err);
