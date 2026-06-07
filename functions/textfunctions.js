@@ -1223,7 +1223,7 @@ const texts_heavy = {
                         `USER_TAG stares at the VAR_C3 in confusion as TARGET_TAG tries to push it in. Registering TARGET_THEIR true intent, it shoves TARGET_THEM into it instead.`,
                         {
                             only: (t) => {
-                                return (t.interactionuser.id === process.client.user.id);
+                                return (t.interactionuser.id == process.client.user.id);
                             },
                             text: `USER_TAG grins as TARGET_TAG attempts to pull it into TARGET_THEIR lap. Obviously TARGET_THEY wantTARGET_S to be in someone's lap, so it gently pulls TARGET_THEM into its own instead with a gentle headpat. A happy sound can be heard from TARGET_THEM!`
                         }
