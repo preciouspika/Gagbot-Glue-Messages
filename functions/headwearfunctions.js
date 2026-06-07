@@ -108,7 +108,8 @@ const assignHeadwear = (userID, headwear, origbinder) => {
 	} else {
 		process.headwear[userID] = { wornheadwear: [headwear], origbinder: originalbinder ?? origbinder };
 	}
-    process.headwear[userID][headwear] = { origbinder: origbinder ?? userID }
+    originalbinder = ((process.headwear[userID] && process.headwear[userID][headwear] && process.headwear[userID][headwear].origbinder) ?? origbinder) ?? userID;
+    process.headwear[userID][headwear] = { origbinder: originalbinder ?? userID }
     // Increment the worn corset counter
     if (process.userstats == undefined) { process.userstats = {} }
     if (process.userstats[userID] == undefined) { process.userstats[userID] = {} }
