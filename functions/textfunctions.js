@@ -3301,7 +3301,7 @@ const texts_unheadwear = {
 				single: {
                     locked: [
                         `USER_TAG tries to put a finger underneath the VAR_C2 to get some leverage and remove it, but the locks keep it firmly secured to USER_THEIR head!`,
-                        `Despite USER_THEIR best efforts, the VAR_C2 does not budge from USER_THEIR head without the key. USER_THEY_CAP should find who has it and ask for it back.`
+                        `Despite USER_THEIR best efforts, the VAR_C2 does not budge from USER_TAG's head without the key. USER_THEY_CAP should find who has it and ask for it back.`
                     ],
 					worn: [
                         `USER_TAG carefully undoes the straps on the VAR_C2, gently pulling it off of USER_THEIR head!`,
