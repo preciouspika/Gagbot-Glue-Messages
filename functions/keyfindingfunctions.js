@@ -128,8 +128,12 @@ async function handleKeyFinding(message) {
         Object.entries(process[pv]).forEach(async (en) => {
             try {
                 if (en[1]?.fumbled && !en[1]?.temporarykeyholder) {
-                    console.log("Attempting to find key " + en[0])
                     if (Math.random() < (Math.max(Math.min(message.content.length * 0.0005, 0.3), process.forcefindkey ? 1.0 : 0.01))) {
+                        if (process.recentmessages[en[0]] != message.channel.id) { 
+                            // Even if we succeeded the roll, just leave. The wearer needs to be present for their key to be found
+                            // This implicitly protects against finding the key on another server or on threads the wearer isnt in.
+                            return 
+                        }
                         process.forcefindkey = false;
                         let weareruser = await message.guild.members.fetch(en[0]);
                         let finderpart = "other";
