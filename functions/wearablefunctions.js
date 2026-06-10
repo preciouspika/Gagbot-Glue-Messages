@@ -332,6 +332,7 @@ let wearabletypes = [
 	{ name: "Leather Bandolier", value: "bandolier_leather", category: "Misc" },
 	{ name: "", value: "tome", colorable: true, category: "Misc", uniqueColors: ["Tome of Bondage", "Cursed Tome", "Shadowy Tome", "Chained Tome", "Gothic Tome", "Angelic Tome"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
 	{ name: "", value: "staff", colorable: true, category: "Misc", uniqueColors: ["Staff of Chains", "Caduceus", "Elemental Staff", "Lunar Staff", "Dollmaker's Staff", "Quarterstaff", "Gohei"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
+	{ name: "Blåhaj", value: "cuddle_shark", category: "Misc" },
 
 	//Body Modifications 
 	{ name: "Earrings", value: "earrings", colorable: true, category: "Body Modification", tags: { piercing: true, metal: true }, uniqueColors: ["Silver", "Gold", "Platinum", "Cobalt", "Black", "Starmetal", "Titanium"], forbiddenColors: ["Black", "Red", "Purple", "Green", "Orange", "Red", "Pink", "White", "Yellow", "Cyan", "Aqua", "Blue", "Indigo", "Gray", "Brown"] },
