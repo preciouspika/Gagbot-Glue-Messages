@@ -895,6 +895,15 @@ const configoptions = {
                     style: ButtonStyle.Primary
                 },
                 {
+                    name: "Immediately",
+                    helptext: "If others find your keys, they'll return them immediately.",
+                    select_function: (userID) => {
+                        return false;
+                    },
+                    value: 0,
+                    style: ButtonStyle.Primary
+                },
+                {
                     name: "2 Minutes",
                     helptext: "Others can discover your keys and play with you for 2 minutes before automatically returning them.",
                     select_function: (userID) => {

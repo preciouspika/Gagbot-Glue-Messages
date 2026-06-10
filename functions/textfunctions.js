@@ -5272,6 +5272,14 @@ const getTextGeneric = (type, data_in) => {
             `USER_TAG finds the key to TARGET_TAG's VAR_C1! TARGET_THEY_CAP would be in trouble if USER_TAG had fingers... But! Despite no fingers, USER_THEY still manageUSER_S to pick it up!`,
             `TARGET_TAG's key has been missing for a bit, but fortunately, USER_TAG spots it! USER_TAG_CAP bats it around a little bit, but in the end, manages to pick it up using both mittens!`
         ],
+        find_key_otherimmediately: [
+            `USER_TAG finds the key to TARGET_TAG's VAR_C1! USER_THEY_CAP takeUSER_S some small pity on TARGET_THEM and giveUSER_S TARGET_THEM TARGET_THEIR key back to its rightful owner!`,
+            `By a stroke of luck, USER_TAG finds TARGET_TAG's key and gives it back to it's original owner!`
+        ],
+        find_key_otherimmediately_mitten: [
+            `Despite USER_THEIR mittens, USER_TAG spots TARGET_TAG's missing VAR_C1 key and picks it up, delivering it back to its rightful owner!`,
+            `USER_TAG finds the key for TARGET_TAG's VAR_C1! Fortunately, USER_THEY USER_ISARE able to pick it up and hand it back to its owner.`
+        ],
         find_keyfail_self: [
             `USER_TAG paws around in the dark, but just barely misses the key to USER_THEIR VAR_C1...`
         ],

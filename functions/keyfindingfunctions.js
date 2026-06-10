@@ -210,10 +210,16 @@ async function handleKeyFinding(message) {
                         else if ((getOption(message.member.id, "findkeymode") == "others") && (getOption(en[0], "ownrestraintfindkeymode") != "onlykh")) {
                             if (Math.random() < chance) {
                                 // Successfully found the key!
-                                messageSendChannel(getTextGeneric(`find_key_${finderpart}${extrafindkeypart}`, data), message.channel.id)
-                                // Set temporary keyholder!
-                                process[pv][en[0]].temporarykeyholder = message.member.id;
-                                process[pv][en[0]].temporarykeyholdertime = (Date.now() + getOption(en[0], "ownrestraintfindkeymode"))
+                                if (getOption(en[0], "ownrestraintfindkeymode") == 0) {
+                                    messageSendChannel(getTextGeneric(`find_key_otherimmediately${extrafindkeypart}`, data), message.channel.id)
+                                    delete process[pv][en[0]].fumbled;
+                                }
+                                else {
+                                    messageSendChannel(getTextGeneric(`find_key_${finderpart}${extrafindkeypart}`, data), message.channel.id)
+                                    // Set temporary keyholder!
+                                    process[pv][en[0]].temporarykeyholder = message.member.id;
+                                    process[pv][en[0]].temporarykeyholdertime = (Date.now() + getOption(en[0], "ownrestraintfindkeymode"))
+                                }
                                 statsAddCounter(message.member.id, "fumbledkeysrecovered")
                                 if (process.readytosave == undefined) {
                                     process.readytosave = {};
