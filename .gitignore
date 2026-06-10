@@ -166,3 +166,8 @@ webhooks.txt
 /backups
 crashlog.txt
 toyusers.txt
+delveuserdata.txt
+heldkeytimers.txt
+memberavatars.txt
+recordedmessages.txt
+userstats.txt
