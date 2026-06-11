@@ -28,3 +28,5 @@ function getBotOption(option) {
     }
     return process.configs.botglobal[option];
 }
+
+exports.getBotOption = getBotOption;

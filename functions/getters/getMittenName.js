@@ -27,3 +27,5 @@ function getMittenName(userID, mittenname) {
         return undefined;
     }
 }
+
+exports.getMittenName = getMittenName;

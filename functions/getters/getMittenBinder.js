@@ -11,3 +11,5 @@ function getMittenBinder(userID) {
 	}
 	return process.mitten[userID]?.origbinder;
 }
+
+exports.getMittenBinder = getMittenBinder;

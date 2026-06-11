@@ -15,3 +15,5 @@ function getBreath(user) {
     process.readytosave.corset = true;
     return corset.breath;
 }
+
+exports.getBreath = getBreath;

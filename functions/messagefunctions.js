@@ -477,16 +477,6 @@ async function getPFP(member, mods = []) {
     return member.displayAvatarURL();
 }
 
-/*********
- * Create a combined profile picture for the user to use on the webhook
- * 
- * 
- *********/
-function createPFP(userobject, avatarURL, decorationURL, force = false) {
-
-}
-
-
 exports.splitMessage = splitMessage;
 
 exports.messageSend = messageSend;
