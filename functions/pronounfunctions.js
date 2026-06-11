@@ -105,6 +105,11 @@ const convertPronounsText = (text, data) => {
 	let targetuser = data.targetuser ?? data.interactionuser; // If we didnt supply a target, just use interaction user for both. 
 
 	let outtext = text;
+    if (typeof outtext !== "string") {
+        console.log("Error converting text. Text supplied to convertPronounsText was:")
+        console.log(text)
+        outtext = `(error text, let Enraa know)`;
+    }
 
 	let user = { subject: getPronouns(interactionuser.id, "subject"), object: getPronouns(interactionuser.id, "object"), possessive: getPronouns(interactionuser.id, "possessive"), possessiveDeterminer: getPronouns(interactionuser.id, "possessiveDeterminer"), reflexive: getPronouns(interactionuser.id, "reflexive"), subjectIs: getPronouns(interactionuser.id, "subjectIs"), subjectWill: getPronouns(interactionuser.id, "subjectWill") };
 
