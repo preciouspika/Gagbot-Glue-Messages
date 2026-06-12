@@ -28,7 +28,7 @@ module.exports = {
                     delete process.toys[resetuser.id];
                 }
                 removeCollar(resetuser.id);
-                removeHeavy(resetuser.id);
+                removeHeavy(resetuser.id, undefined, true);
                 removeCorset(resetuser.id);
                 deleteWearable(resetuser.id);
                 deleteHeadwear(resetuser.id, undefined, true);
@@ -48,7 +48,7 @@ module.exports = {
                         delete process.toys[interaction.user.id];
                     }
                     removeCollar(interaction.user.id);
-                    removeHeavy(interaction.user.id);
+                    removeHeavy(interaction.user.id, undefined, true);
                     removeCorset(interaction.user.id);
                     deleteWearable(interaction.user.id);
                     deleteHeadwear(interaction.user.id, undefined, true);

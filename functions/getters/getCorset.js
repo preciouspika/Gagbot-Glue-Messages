@@ -1,5 +1,5 @@
 /*********
- * Gets the currently worn corset for the user by ID
+ * Gets the worn corset for a user. Returns the corset if it exists, or undefined if not.
  * 
  * - (user ID) user - The user to get the corset for
  * ---
