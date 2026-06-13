@@ -942,6 +942,12 @@ const texts_heavy = {
                         },
                         text: `USER_TAG reaches out to pet a cat. Soon after, the cat hops into USER_THEIR lap! USER_THEY_CAP USER_ISARE trapped as more cats show up to cuddle with USER_THEM!`,
                     },
+					{
+					 only: (t) => {
+					  return t.c2.includes("Sticky Glue");
+					 },
+					 text: `USER_TAG wanders around for a while, then decides to flop into a VAR_C2 trap!`,
+					},
                 ],
                 legs: [
                     `USER_TAG pulls out a VAR_C2 and wraps it over USER_THEIR legs! USER_THEY_CAP will be quite unable to move now!`,
@@ -1153,6 +1159,12 @@ const texts_heavy = {
                         },
                         text: `USER_TAG traces some runes in the air near TARGET_TAG's arms, placing TARGET_THEM into a set of VAR_C3!`,
                     },
+					{
+					 only: (t) => {
+					  return t.c3.includes("Sticky Glue");
+					 },
+					 text: `USER_TAG pushes TARGET_TAG from behind as TARGET_THEY looked away, causing TARGET_THEM to fall into a VAR_C3 trap!`,
+					},
                 ],
                 legs: [
                     `USER_TAG grabs TARGET_TAG's legs and wraps a VAR_C3 over them, pulling the restraint tightly around and securing it.`,
@@ -1673,13 +1685,13 @@ const texts_struggle = {
 			required: (t) => {
 				return t.c1.includes("Sticky Glue");
 		 },
-		    text: `USER_TAG struggles and pulls against USER_THEIR VAR_C1, but the stickiness leaves USER_THEM more helpless than before!`,
+		 text: `USER_TAG struggles and pulls against USER_THEIR VAR_C1, but the stickiness leaves USER_THEM more helpless than before!`,
 		},
 		{
 			required: (t) => {
 				return t.c1.includes("Sticky Glue");
 		 },
-		    text: `USER_TAG squirms helplessly like a cute mouse in USER_THEIR VAR_C1 trap!`,
+		 text: `USER_TAG squirms helplessly like a cute mouse in USER_THEIR VAR_C1 trap!`,
 		}
 	],
 	gag: {
@@ -2166,7 +2178,7 @@ const texts_touch = {
                         `USER_TAG scritches TARGET_TAG's head in all the fun little places! TARGET_THEY_CAP sighTARGET_S in content at the headpat...`,
                         `USER_TAG gently pats the hair on TARGET_TAG's head, giving TARGET_THEM a sense of glee as the sensations run down TARGET_THEIR body!`,
                         `USER_TAG gingerly runs USER_THEIR fingers over TARGET_TAG's ears and behind TARGET_THEIR head to give TARGET_THEM a small but gentle scritch!`,
-                        `USER_TAG brushes the hair out of TARGET_TAG's face as USER_THEY runUSER_S USER_THEIR hand over TARGET_THEIR head with a cute little headpat!`,
+                        `USER_TAG brushes the hair out of TARGET_TAG's face as USER_THEY runUSER_S their hand over TARGET_THEIR head with a cute little headpat!`,
                         {
                             required: (t) => {
                                 return (getArousal(t.targetuser.id) > 50)
@@ -3399,13 +3411,13 @@ const texts_unheadwear = {
                             required: (t) => {
                                 return process.headtypes[t.headwearchoice]?.blockinspect
                             },
-                            text: `TARGET_TAG blinks and squints as TARGET_THEIR eyes adjust to the light again after USER_TAG rescues USER_THEM from the darkness of the VAR_C2!`
+                            text: `TARGET_TAG blinks and squints as TARGET_THEIR eyes adjust to the light again as TARGET_THEY lookTARGET_S at USER_TAG rescuing USER_THEM from the darkness of the VAR_C2.`
                         },
                         {
                             required: (t) => {
                                 return process.headtypes[t.headwearchoice]?.blockinspect
                             },
-                            text: `TARGET_TAG blinks and squints as TARGET_THEIR eyes adjust to the light again after USER_TAG rescues USER_THEM from the darkness of the VAR_C2!`
+                            text: `TARGET_TAG blinks and squints as TARGET_THEIR eyes adjust to the light again as TARGET_THEY lookTARGET_S at USER_TAG rescuing USER_THEM from the darkness of the VAR_C2.`
                         },,
                         {
                             required: (t) => {
@@ -3438,10 +3450,10 @@ const texts_unheavy = {
 				text: `USER_TAG wiggles a bit in VAR_C1, but it's so warm and comfy there...`,
 			},
 			{
-			only: (t) => {
-			    return t.c1.includes("Sticky Glue");
+			 only: (t) => {
+			  return t.c1.includes("Sticky Glue");
 			 },
-			    text: `USER_TAG wriggles in the VAR_C1 trap, but it's very hard to escape these without outside help...`,
+			 text: `USER_TAG wriggles in the VAR_C1 trap, but it's very hard to escape these without outside help...`,
 			},
 		],
 		other: [`USER_TAG brushes up against TARGET_TAG to help TARGET_THEM out of TARGET_THEIR VAR_C2, but being trapped in a VAR_C1, USER_THEY can't really help TARGET_THEM out much.`],
